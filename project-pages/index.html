@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=GB18030" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />
+<link rel="stylesheet" href="css/base.css" type="text/css" />
+<link rel="stylesheet" href="css/login.css" type="text/css" />
+<link rel="stylesheet" type="text/css" href="css/forms.css" />
+<link rel="stylesheet" type="text/css" href="ext/css/ext-all.css" />
+<script type="text/javascript" src="ext/ext-base.js"></script>
+<script type="text/javascript" src="ext/ext-all.js"></script>
+<script type="text/javascript" src="ext/commonext.js"></script>
+<script type="text/javascript" src="ext/ext-lang-zh_CN.js"></script>
+<script type="text/javascript" src="ext/commonext.js"></script>
+
+<title>流程管理平台</title>
+<script type="text/javascript">
+	function init() {
+		//alert(top.window.location.href)
+		//alert(top.window.location.href)
+		if (top.window != null && top.window.location.href.indexOf('index.html') == -1) {
+			top.window.location.href = 'index.html';
+		}
+		document.getElementById('main-div').style.marginTop = (document.body.offsetHeight - 400) + "px";
+	}
+	function forwardLogin() {
+		Ext.Ajax.request({
+			url : 'loginAction!checkUserAccount.do',
+			method : 'post',
+			params : {
+				USERID : document.getElementById("TextBox1").value,
+				PASSWORD : document.getElementById("TextBox2").value
+			},
+			success : function(data, options) {
+				var response = Ext.util.JSON.decode(data.responseText);
+				//alert(response.result)
+				if (response.result == '1') {
+					window.location.href = 'main/main.html';
+					//window.location= "../main/main.jsp";
+					setTimeout(function() {
+						window.location.href = 'main/main.html'
+					}, 1000);
+				} else {
+					_alert(response.msg);
+					return;
+				}
+			}
+		});
+	}
+	function restvalue() {
+		document.getElementById("TextBox1").value = '';
+		document.getElementById("TextBox2").value = '';
+	}
+</script>
+
+</head>
+
+<body class="login_bg" onload="init();">
+	<div class="login_main" id="main-div">
+		<div class="login_logo">
+			<h2>
+			</h2>
+		</div>
+		<div class="login_left">
+			<img class="login_pic" src="images/login_pic.png" />
+		</div>
+		<div class="login_right">
+			<dl>
+				<dt class="uesr">
+					<label id="lbYhm"> 用户名： </label>
+				</dt>
+				<dd>
+					<input name="TextBox1" type="text" id="TextBox1" tabindex="1"
+						class="text_nor" style="Width: 130px" />
+				</dd>
+				<dt class="passw">
+					<label id="lbMm"> 密&nbsp;&nbsp;&nbsp;码： </label>
+				</dt>
+				<dd>
+					<input name="TextBox2" type="password" id="TextBox2" tabindex="2"
+						class="text_nor" style="Width: 130px" />
+				</dd>
+
+				<dd>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+						type="button" name="button" value="" id="Button1" class="btn_dl"
+						onClick="forwardLogin()" /> <input type="button" name="Button2"
+						value="" id="Button2" class="btn_cz" onClick="restvalue()" />
+				</dd>
+			</dl>
+		</div>
+		<div class="login_copyright">
+			<span>&nbsp;&nbsp; </span>
+		</div>
+	</div>
+
+</body>
+</html>

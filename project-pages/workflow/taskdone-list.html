@@ -1,0 +1,43 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=GB18030" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />
+<link rel="stylesheet" href="../ext/css/ext-all.css" type="text/css" />
+<link rel="stylesheet" href="../css/icon.css" type="text/css"></link>
+<link rel="stylesheet" href="../css/base.css" type="text/css"></link>
+<link rel="stylesheet" href="../css/forms.css" type="text/css"></link>
+<script type="text/javascript" src="../ext/ext-base.js"></script>
+<script type='text/javascript' src='../datePicker/WdatePicker.js'></script>
+<script type="text/javascript" src="../ext/ext-all.js"></script>
+<script type="text/javascript" src="../ext/commonext.js"></script>
+<script type="text/javascript" src="../jslib/pagebus/pagebus.js"></script>
+<script type="text/javascript" src="taskdone-list.js"></script>
+</head>
+<body onload="init();">
+	<div id="searchdiv">
+		<table class="table-width">
+			<tr>
+				<td class="t" style="width: 70px"><span>起始日期</span></td>
+				<td class="ts" style="width: 120px"><input name="beginTime0"
+					id="beginTime0" style="width: 120px" class="Wdate"
+					onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" /></td>
+				<td class="t" style="width: 70px"><span>结束日期</span></td>
+				<td class="ts" style="width: 120px"><input name="endTime0"
+					id="endTime0" style="width: 120px" class="Wdate"
+					onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" /></td>
+				<td style="width: 70px;" class="t">对应流程</td>
+				<td style="width: 160px;" class="ts"><select
+					style="width: 130px;" id="defkey"><option value=''>---请选择---</option></select></td>
+				<td  class="ts"><A class="l-btn" href="javascript:doSearch('list',0);">
+						<SPAN class="l-btn-left"><SPAN
+							class="l-btn-text  icon-utils-s-search l-btn-icon-left">查询</SPAN>
+				</A></td>
+			</tr>
+		</table>
+	</div>
+	<div id="mygrid"></div>
+
+</body>
+</html>

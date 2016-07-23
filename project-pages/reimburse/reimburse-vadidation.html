@@ -1,0 +1,59 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=GB18030" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />
+<link rel="stylesheet" href="../css/base.css" type="text/css"
+	media="all" />
+<link rel="stylesheet" href="../css/login.css" type="text/css"
+	media="all" />
+<link rel="stylesheet" type="text/css" href="../css/forms.css" />
+<link rel="stylesheet" href="../css/icon.css" type="text/css"></link>
+<link rel="stylesheet" type="text/css" href="../ext/css/ext-all.css" />
+<script type="text/javascript" src="../ext/ext-base.js"></script>
+<script type="text/javascript" src="../ext/ext-all.js"></script>
+<script type="text/javascript" src="../ext/commonext.js"></script>
+<script type="text/javascript" src="../ext/ext-lang-zh_CN.js"></script>
+<script type="text/javascript" src="reimburse-vadidationjs"></script>
+</head>
+<body onload="init();">
+	<div id="toolbar"></div>
+	<div id="mygrid"></div>
+	<div id="window-win-deploy" title="流程部署" class="x-hidden" width="500"
+		height="105" modal=true resizable=false>
+		<div class="x-window-body">
+			<form id="upForm" method="post" enctype="multipart/form-data">
+				<table cellspacing="0" class="table-width">
+					<tr>
+						<td style="height: 30px; width: 25%;" class="t"><span
+							class="bitian">*</span>流程文件</td>
+						<td style="height: 0px; width: 75%;" class="ts" id="inner"></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+	<div id="window-win-dept" title="流程定义查看" class="x-hidden" width="800"
+		height="550" modal=true resizable=false>
+		<div class="x-window-body">
+			<img src="" id="processDefinitionIdpng" width="760" height="480">
+		</div>
+	</div>
+	<div id="window-win-users" title="节点人员管理" class="x-hidden" width="800"
+		modal=true resizable=false>
+		<div class="x-window-body">
+			<div id="activimygrid"></div>
+		</div>
+	</div>
+
+	<div id="window-win-users2" title="节点人员配置" class="x-hidden" width="400"
+		modal=true resizable=false>
+		<div class="x-window-body">
+			<input type="hidden" id="ID" value="">
+			<iframe id="fraView" frameborder="0" src="" height="380"
+				scrolling="no" width='100%'></iframe>
+		</div>
+	</div>
+</body>
+</html>

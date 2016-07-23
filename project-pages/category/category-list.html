@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=GB18030" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />
+<link rel="stylesheet" href="../css/base.css" type="text/css" />
+<link rel="stylesheet" href="../css/login.css" type="text/css" />
+<link rel="stylesheet" type="text/css" href="../css/forms.css" />
+<link rel="stylesheet" href="../css/icon.css" type="text/css"></link>
+<link rel="stylesheet" href="../css/yav-style.css"></link>
+<link rel="stylesheet" type="text/css" href="../ext/css/ext-all.css" />
+<link rel="stylesheet" type="text/css" href="../ext/ux/css/ux-all.css" rel="stylesheet" />
+<script type="text/javascript" src="../ext/ext-base.js"></script>
+<script type="text/javascript" src="../ext/ext-all.js"></script>
+<script type="text/javascript" src="../ext/commonext.js"></script>
+<script type="text/javascript" src="../ext/ext-lang-zh_CN.js"></script>
+<script type="text/javascript" src="../jslib/yav.js"></script>
+<script type="text/javascript" src="../jslib/yav-config.js"></script>
+<script type="text/javascript" src="../ext/ux/ux-all.js"></script>
+<script type="text/javascript" src="category-list.js"></script>
+</head>
+<body onload="init();">
+	<div id="toolbar"></div>
+	<div id="treegrid"></div>
+	<div id="window-win-deploy" title="类别管理" class="x-hidden" width="600"
+		height="150" modal=true resizable=false>
+		<div class="x-window-body">
+			<form id="userEdit">
+				<table cellspacing="0" class="table-width">
+					<tr>
+
+						<td style="height: 25px; width: 17%;" class="t">类别名称<span
+							class="bitian">*</span></td>
+						<td style="height: 0px;" class="ts"><input type="text"
+							style="width: 420px;" id="name" name="name" /></td>
+
+					</tr>
+					<tr>
+						<td style="height: 25px; width: 17%;" class="t">所属类别</td>
+						<td style="height: 0px;" class="ts"><div id="dealDept"
+								style="float: left"></div></td>
+					</tr>
+					<tr>
+						<td style="height: 25px; width: 17%;" class="t">对应流程</td>
+						<td style="height: 0px;" ts" colspan="3"><select
+							style="width: 420px;" id="defkey"><option value=''>---请选择---</option></select></td>
+
+
+					</tr>
+					<tr>
+						<td style="height: 25px; width: 17%;" class="t">说明</td>
+						<td style="height: 0px;" class="ts" colspan="3"><input
+							type="text" style="width: 420px;" id="description"
+							name="description" /></td>
+
+					</tr>
+				</table>
+				<input type="hidden" id="ID" value="">
+			</form>
+		</div>
+	</div>
+
+	<div id="window-win-dept" title="流程定义查看" class="x-hidden" width="800"
+		height="550" modal=true resizable=false>
+		<div class="x-window-body">
+			<img src="" id="processDefinitionIdpng" width="760" height="480" >
+		</div>
+	</div>
+</body>
+</html>

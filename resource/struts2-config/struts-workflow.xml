@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="workflow" extends="struts-default" namespace="/">
+		<action name="getDeploymentDef" class="com.xtsoft.workflow.action.WorkflowAction" method="getDeploymentDef"></action>
+		<action name="loadByDeployment" class="com.xtsoft.workflow.action.WorkflowAction" method="loadByDeployment"></action>
+		<action name="workflow!findDefKeyList" class="com.xtsoft.workflow.action.WorkflowAction" method="findDefKeyList"></action>
+		<action name="workflow!findActivitiConfigList" class="com.xtsoft.workflow.action.WorkflowAction" method="findActivitiConfigList"></action>
+		<action name="workflow!findActivitiConfigUsers" class="com.xtsoft.workflow.action.WorkflowAction" method="findActivitiConfigUsers"></action>
+		<action name="workflow!editConfigUserList" class="com.xtsoft.workflow.action.WorkflowAction" method="editConfigUserList"></action>
+		<action name="workflow!removeConfigUserList" class="com.xtsoft.workflow.action.WorkflowAction" method="removeConfigUserList"></action>
+		<action name="workflow!deleteDeployment" class="com.xtsoft.workflow.action.WorkflowAction" method="deleteDeployment"></action>
+		<action name="workflow!deleteDeployment" class="com.xtsoft.workflow.action.WorkflowAction" method="deleteDeployment"></action>
+		<action name="workflow!findNextConfigUsers" class="com.xtsoft.workflow.action.WorkflowAction" method="findNextConfigUsers"></action>
+		<action name="workflow!getRunTimeTask" class="com.xtsoft.workflow.action.WorkflowAction" method="getRunTimeTask"></action>
+		<action name="workflow!loadByProcessInstance" class="com.xtsoft.workflow.action.WorkflowAction" method="loadByProcessInstance"></action>
+		<action name="workflow!getProcessComment" class="com.xtsoft.workflow.action.WorkflowAction" method="getProcessComment"></action>
+		<action name="workflow!showDisplayByUserId" class="com.xtsoft.workflow.action.WorkflowAction" method="showDisplayByUserId"></action>
+		<action name="workflow!endTask" class="com.xtsoft.workflow.action.WorkflowAction" method="endTask"></action>
+		<action name="workflow!getAssignedTasks" class="com.xtsoft.workflow.action.WorkflowAction" method="getAssignedTasks"></action>
+		<action name="workflow!findNextUserIdByProcessKey" class="com.xtsoft.workflow.action.WorkflowAction" method="findNextUserIdByProcessKey"></action>
+	</package>
+</struts>

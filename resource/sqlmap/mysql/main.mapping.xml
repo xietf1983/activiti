@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xtsoft.kernel.main.model">
+
+	<select id="category_list_fetchByParentId" parameterType="java.util.HashMap"
+		resultType="com.xtsoft.category.model.Category">
+		SELECT
+		CATEGORYID,PARENTID,NAME,REMARK,DESCRIPTION,DEFKEY,ISLEAF,TYPEKEY,ACTIVE,SORTID,
+		(select name_ from act_re_procdef where id_ in(
+		(SELECT max(id_) from
+		act_re_procdef p WHERE p.key_=c.DEFKEY ))) as
+		DEFKEYNAME,
+		(SELECT
+		max(id_) from
+		act_re_procdef p WHERE p.key_=c.DEFKEY ) as
+		processDefinitionId
+		from category_ c where ACTIVE=1
+		<if test="PARENTID != null">
+			and PARENTID = #{PARENTID}
+		</if>
+		<if test="TYPEKEY != null">
+			and TYPEKEY = #{TYPEKEY}
+		</if>
+		ORDER BY SORTID
+	</select>
+	<insert id="category_insert" parameterType="com.xtsoft.category.model.Category">
+		insert into
+		category_
+		(CATEGORYID,PARENTID,NAME,REMARK,DESCRIPTION,DEFKEY,ISLEAF,TYPEKEY,ACTIVE,SORTID,FULLPATH)
+		values
+		(#{categoryId},#{parentId},#{name},#{remark},#{description},#{defkey},#{isleaf},#{typeKey},#{active},#{sortId},#{fullPath})
+	</insert>
+	<update id="category_update" parameterType="com.xtsoft.category.model.Category">
+		update
+		category_
+		set
+		PARENTID=#{parentId},NAME=#{name},
+		REMARK=#{remark},DESCRIPTION=#{description},DEFKEY=#{defkey},ISLEAF=#{isleaf},SORTID=#{sortId},FULLPATH=#{fullPath},
+		TYPEKEY=#{typeKey},ACTIVE=#{active}
+		where
+		CATEGORYID= #{categoryId}
+	</update>
+
+	<delete id="category_delete" parameterType="long">
+		delete from
+		category_
+		where
+		CATEGORYID= #{categoryId}
+	</delete>
+
+	<select id="category_fetchByPrimaryKey" parameterType="long"
+		resultType="com.xtsoft.category.model.Category">
+		SELECT
+		CATEGORYID,PARENTID,NAME,REMARK,DESCRIPTION,DEFKEY,ISLEAF,TYPEKEY,ACTIVE,SORTID,FULLPATH
+		FROM
+		category_ where
+		CATEGORYID =#{categoryId}
+	</select>
+	<select id="category_fetchByFullPath" parameterType="string"
+		resultType="com.xtsoft.category.model.Category">
+		SELECT
+		CATEGORYID,PARENTID,NAME,REMARK,DESCRIPTION,DEFKEY,ISLEAF,TYPEKEY,ACTIVE,SORTID,FULLPATH
+		FROM
+		category_ where
+		fullpath like #{fullpath}
+	</select>
+
+	<select id="reimburse_list_fetchByParamter" parameterType="java.util.HashMap"
+		resultType="java.util.HashMap">
+		SELECT
+		ID,SEQCODE,CREATEDATE,COMPANYID,PROJECTCODE,PROJECTNAME,TYPE,CREATEOR,STATUS,AMOUNT,PROCESSINSTANCEID,NEXTUSER,
+		date_format(CREATEDATE,'%Y-%m-%d')as CREATEDATE_SHOWVALUE,(select
+		USERNAME from user_ U where U.USERID = R.CREATEOR) as
+		CREATEOR_SHOWVALUE,(SELECT NAME FROM company_ c WHERE c.COMPANYID
+		=r.COMPANYID ) as COMPANY_SHOWVALUE,(SELECT NAME FROM category_ C
+		WHERE C.CATEGORYID =R.TYPE ) AS CATEGORY_SHOWVALUE
+		FROM reimburse R
+		where ACTIVE =1
+		<if test="CREATEOR != null">
+			and ( CREATEOR = #{CREATEOR} )
+		</if>
+		<if test="STARTDAY != null">
+			and CREATEDATE &gt;= #{STARTDAY}
+		</if>
+
+		<if test="ENDDAY != null">
+			and CREATEDATE &lt;= #{ENDDAY}
+		</if>
+
+		<if test="STATUS != null">
+			and STATUS = #{STATUS}
+		</if>
+
+		<if test="SEQCODE != null">
+			and SEQCODE like #{SEQCODE}
+		</if>
+
+	</select>
+	<select id="reimburse_seqcode" parameterType="java.util.HashMap"
+		resultType="long">
+		SELECT IFNULL(MAX(SEQINDEX),0 ) MAXVALUES FROM reimburse
+		<where>
+			<if test="STARTDATE != null">
+				and CREATEDATE &gt;= #{STARTDATE}
+			</if>
+			<if test="ENDDATE != null">
+				and CREATEDATE &lt;= #{ENDDATE}
+			</if>
+		</where>
+	</select>
+	<select id="reimburse_count_fetchByParamter" parameterType="java.util.HashMap"
+		resultType="long">
+		SELECT COUNT(*)
+		FROM reimburse R
+		where ACTIVE =1
+		<if test="CREATEOR != null">
+			and ( CREATEOR = #{CREATEOR} )
+		</if>
+		<if test="STARTDAY != null">
+			and CREATEDATE &gt;= #{STARTDAY}
+		</if>
+
+		<if test="ENDDAY != null">
+			and CREATEDATE &lt;= #{ENDDAY}
+		</if>
+
+		<if test="STATUS != null">
+			and STATUS = #{STATUS}
+		</if>
+		<if test="SEQCODE != null">
+			and SEQCODE like #{SEQCODE}
+		</if>
+
+	</select>
+	<select id="reimburse_fetchByPrimaryKey" parameterType="long"
+		resultType="com.xtsoft.reimburse.model.Reimburse">
+		SELECT r.*,(SELECT NAME FROM company_ c WHERE c.COMPANYID
+		=r.COMPANYID ) as companyName,(SELECT NAME FROM category_ C
+		WHERE
+		C.CATEGORYID =R.TYPE ) AS typeName FROM reimburse r WHERE
+		ID=#{reimburseId}
+	</select>
+
+	<insert id="reimburse_insert" parameterType="com.xtsoft.reimburse.model.Reimburse">
+		insert into
+		reimburse
+		(ID,SEQCODE,CREATEDATE,COMPANYID,PROJECTCODE,PROJECTNAME,TYPE,CREATEOR,STATUS,AMOUNT,PROCESSINSTANCEID,NEXTUSER,ACTIVE,SEQINDEX)
+		values
+		(#{id,jdbcType=NUMERIC},#{seqCode,jdbcType=VARCHAR},#{createDate,jdbcType=DATE},#{companyId,jdbcType=NUMERIC},#{projectCode,jdbcType=VARCHAR},#{projectName,jdbcType=VARCHAR},#{type,jdbcType=NUMERIC},#{createor,jdbcType=NUMERIC},#{status,jdbcType=NUMERIC},#{amount,jdbcType=FLOAT},#{processInstanceId,jdbcType=VARCHAR},#{nextUser,jdbcType=NUMERIC},#{active,jdbcType=NUMERIC},#{seqindex,jdbcType=NUMERIC})
+	</insert>
+	<update id="reimburse_update" parameterType="com.xtsoft.reimburse.model.Reimburse">
+		update
+		reimburse set
+		SEQCODE=#{seqCode,jdbcType=VARCHAR},CREATEDATE=#{createDate,jdbcType=DATE},COMPANYID=#{companyId,jdbcType=NUMERIC},PROJECTCODE=#{projectCode,jdbcType=VARCHAR},PROJECTNAME=#{projectName,jdbcType=VARCHAR},TYPE=#{type,jdbcType=NUMERIC},CREATEOR=#{createor,jdbcType=NUMERIC},STATUS=#{status,jdbcType=NUMERIC},AMOUNT=#{amount,jdbcType=FLOAT},PROCESSINSTANCEID=#{processInstanceId,jdbcType=VARCHAR},NEXTUSER=#{nextUser,jdbcType=NUMERIC},
+		ACTIVE=#{active,jdbcType=NUMERIC},SEQINDEX=#{seqindex}
+		where
+		ID= #{id}
+	</update>
+
+	<delete id="reimburse_delete" parameterType="long">
+		delete from
+		reimburse
+		where
+		ID= #{id}
+	</delete>
+	<select id="reimbursedetail_list_fetchbyKey" parameterType="long"
+		resultType="java.util.HashMap">
+		SELECT
+		DETAILID,BILLNUMBER,AMOUNT,REIMBURSEID,ORGANIZATIONID,DESCRIPTION,INVOICENO,ACTIVE,APPROPRIATEUSERID,(select
+		USERNAME from user_ U where U.USERID = R.APPROPRIATEUSERID) as
+		USERNAME,(SELECT TEXT FROM organization_ C
+		WHERE C.ORGANIZATIONID
+		=R.ORGANIZATIONID ) AS ORGNAME_SHOWVALUE,APPROPRIATEUSERID AS USERID
+		FROM reimbursedetail R
+		where REIMBURSEID =#{reimburseid} and ACTIVE =1
+
+	</select>
+	<delete id="reimbursedetail_delete" parameterType="java.util.HashMap">
+		delete from
+		reimbursedetail
+		<where>
+			<if test="REIMBURSEID != null">
+				and REIMBURSEID = #{REIMBURSEID}
+			</if>
+			<if test="DETAILID != null">
+				and DETAILID;= #{DETAILID}
+			</if>
+		</where>
+	</delete>
+	<insert id="reimbursedetail_insert" parameterType="com.xtsoft.reimburse.model.ReimburseDetail">
+		insert into
+		reimbursedetail
+		(DETAILID,BILLNUMBER,AMOUNT,REIMBURSEID,ORGANIZATIONID,DESCRIPTION,INVOICENO,ACTIVE,APPROPRIATEUSERID,CREATEUSERID)
+		values
+		(#{detailId,jdbcType=NUMERIC},
+		#{billnumber,jdbcType=NUMERIC},
+		#{amount,jdbcType=FLOAT},
+		#{reimburseId,jdbcType=NUMERIC}
+		,#{organizationId,jdbcType=NUMERIC},
+		#{description,jdbcType=VARCHAR},'',1,
+		#{appropriateUserId,jdbcType=NUMERIC},#{createUserId,jdbcType=NUMERIC})
+	</insert>
+
+
+	<select id="reimburse_static_fetchByParamter" parameterType="java.util.HashMap"
+		resultType="java.util.HashMap">
+		select P.*,r.AMOUNT,r.DETAILID,r.ORGANIZATIONID,r.BILLNUMBER,
+		r.APPROPRIATEUSERID,(select
+		USERNAME from user_ U where U.USERID =
+		R.APPROPRIATEUSERID) AS USERNAME,
+		(SELECT TEXT FROM organization_ C
+		WHERE C.ORGANIZATIONID
+		=R.ORGANIZATIONID ) AS ORGNAME_SHOWVALUE from
+		(SELECT ID,SEQCODE,CREATEDATE,COMPANYID,
+		PROJECTCODE,PROJECTNAME,TYPE,CREATEOR,STATUS,AMOUNT,
+		PROCESSINSTANCEID,NEXTUSER,
+		date_format(CREATEDATE,'%Y-%m-%d')as
+		CREATEDATE_SHOWVALUE,(select
+		USERNAME from user_ U where U.USERID =
+		B.CREATEOR) as
+		CREATEOR_SHOWVALUE,(SELECT NAME FROM company_ c WHERE
+		c.COMPANYID
+		=B.COMPANYID ) as COMPANY_SHOWVALUE,(SELECT NAME FROM
+		category_ C
+		WHERE C.CATEGORYID =B.TYPE ) AS CATEGORY_SHOWVALUE from
+		reimburse B where ACTIVE=1
+		<if test="STARTDAY != null">
+			and CREATEDATE &gt;= #{STARTDAY}
+		</if>
+
+		<if test="ENDDAY != null">
+			and CREATEDATE &lt;= #{ENDDAY}
+		</if>
+		<if test="STATUS != null">
+			and STATUS = #{STATUS}
+		</if>
+
+		<if test="TYPES != null">
+			and TYPE IN ($TYPES$)
+		</if>
+		<if test="COMPANYID != null">
+			and COMPANYID =#{COMPANYID}
+		</if>
+		) P
+		left join reimbursedetail r on p.id =r.REIMBURSEID
+		WHERE
+		R.ORGANIZATIONID IN (${ORGIDS})
+		<if test="APPROPRIATEUSERID != null">
+			and r.APPROPRIATEUSERID IN ( ${APPROPRIATEUSERID})
+		</if>
+		<if test="ORGANIZATIONID != null">
+			and r.ORGANIZATIONID IN ( ${ORGANIZATIONID})
+		</if>
+		ORDER BY ORGANIZATIONID
+	</select>
+
+	<select id="appropriate_fetchByPrimaryKey" parameterType="long"
+		resultType="com.xtsoft.appropriate.model.Appropriate">
+		SELECT r.*,(SELECT NAME FROM company_ c WHERE c.COMPANYID
+		=r.COMPANYID ) as companyName,(select
+		USERNAME from user_ U where
+		U.USERID = R.CREATEOR) AS createorName FROM appropriate_ r WHERE
+		APPROPRIATEID=#{reimburseId}
+	</select>
+
+	<insert id="appropriate_insert" parameterType="com.xtsoft.appropriate.model.Appropriate">
+		insert into
+		appropriate_
+		(APPROPRIATEID,DESCRIPTION,COMPANYID,ORGANIZATIONID,AMOUNT,CREATEOR,CREATEDATE,APPROPRIATEDATE,STATUS,ACTIVE,TYPE)
+		values
+		(#{appropriateId,jdbcType=NUMERIC},#{description,jdbcType=VARCHAR},#{companyId,jdbcType=NUMERIC},#{organizationId,jdbcType=NUMERIC}
+		,#{amount,jdbcType=FLOAT},#{createor,jdbcType=NUMERIC},#{createDate,jdbcType=DATE},
+		#{appropriateDate,jdbcType=DATE},#{status,jdbcType=NUMERIC},#{active,jdbcType=NUMERIC},#{type,jdbcType=NUMERIC})
+	</insert>
+	<update id="appropriate_update" parameterType="com.xtsoft.appropriate.model.Appropriate">
+		update
+		appropriate_ set
+		DESCRIPTION=#{description,jdbcType=VARCHAR},
+		CREATEDATE=#{createDate,jdbcType=DATE},
+		APPROPRIATEDATE=#{appropriateDate,jdbcType=DATE},
+		COMPANYID=#{companyId,jdbcType=NUMERIC},
+		ORGANIZATIONID=#{organizationId,jdbcType=NUMERIC},
+		TYPE=#{type,jdbcType=NUMERIC},
+		CREATEOR=#{createor,jdbcType=NUMERIC},
+		STATUS=#{status,jdbcType=NUMERIC},
+		AMOUNT=#{amount,jdbcType=FLOAT},
+		ACTIVE=#{active,jdbcType=NUMERIC}
+		where
+		APPROPRIATEID= #{appropriateId}
+	</update>
+
+	<select id="appropriate_list_fetchByParamter" parameterType="java.util.HashMap"
+		resultType="java.util.HashMap">
+		SELECT
+		APPROPRIATEID,COMPANYID,TYPE,CREATEOR,STATUS,AMOUNT,ORGANIZATIONID,DESCRIPTION,APPROPRIATEDATE,date_format(APPROPRIATEDATE,'%Y-%m-%d')as
+		APPROPRIATEDATE_SHOWVALUE,(SELECT TEXT FROM organization_ C
+		WHERE
+		C.ORGANIZATIONID
+		=R.ORGANIZATIONID ) AS ORGNAME_SHOWVALUE,
+		date_format(CREATEDATE,'%Y-%m-%d')as
+		CREATEDATE_SHOWVALUE,(select
+		USERNAME from user_ U where U.USERID =
+		R.CREATEOR) as
+		CREATEOR_SHOWVALUE,(SELECT NAME FROM company_ c WHERE
+		c.COMPANYID
+		=r.COMPANYID ) as COMPANY_SHOWVALUE
+		FROM appropriate_ R
+		where ACTIVE =1
+		AND R.ORGANIZATIONID IN (${ORGIDS})
+		<if test="CREATEOR != null">
+			and ( CREATEOR = #{CREATEOR} )
+		</if>
+		<if test="STARTDAY != null">
+			and APPROPRIATEDATE &gt;= #{STARTDAY}
+		</if>
+
+		<if test="ENDDAY != null">
+			and APPROPRIATEDATE &lt;= #{ENDDAY}
+		</if>
+
+		<if test="COMPANYID != null">
+			and COMPANYID = #{COMPANYID}
+		</if>
+		<if test="ORGANIZATIONIDS != null">
+			and r.ORGANIZATIONID IN ( ${ORGANIZATIONIDS})
+		</if>
+	</select>
+
+	<select id="appropriate_count_fetchByParamter" parameterType="java.util.HashMap"
+		resultType="long">
+		SELECT COUNT(*)
+		FROM appropriate_ R where ACTIVE =1
+		AND R.ORGANIZATIONID IN (${ORGIDS})
+		<if test="CREATEOR != null">
+			and ( CREATEOR = #{CREATEOR} )
+		</if>
+		<if test="STARTDAY != null">
+			and APPROPRIATEDATE &gt;= #{STARTDAY}
+		</if>
+
+		<if test="ENDDAY != null">
+			and APPROPRIATEDATE &lt;= #{ENDDAY}
+		</if>
+
+		<if test="COMPANYID != null">
+			and COMPANYID = #{COMPANYID}
+		</if>
+		<if test="ORGANIZATIONIDS != null">
+			and r.ORGANIZATIONID IN ( ${ORGANIZATIONIDS})
+		</if>
+
+	</select>
+
+</mapper>

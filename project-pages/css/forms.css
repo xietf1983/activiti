@@ -1,0 +1,82 @@
+@charset "utf-8";
+
+/*=======颜色图片信息========*/
+fieldset {
+	border: #CAD6E6 1px solid;
+}
+
+legend {
+	
+}
+
+input {
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	height:20px;
+	font-weight: normal;
+}
+
+textarea {
+	border: 1px solid #CAD6E6;
+}
+
+/*FOR IE*/
+* html input.text_nor {
+	border: 1px solid #CCCCCC;
+	padding: 3px 0;
+}
+
+/*FOR FF*/
+*>input[type="text"],*>input[type="password"] {
+	border: 1px solid #CCCCCC;
+}
+
+*>input[type="text"]:hover,*>input[type="password"]:hover {
+	background: #FFFFEE;
+	border: 1px solid #999999;
+}
+
+*>input[type="text"]:focus,*>input[type="password"]:focus {
+	background: #FFFFEE;
+	border: 1px solid #999999;
+}
+
+input.text_tishi {
+	border: 1px solid #CCCCCC;
+	color: #ccc;
+}
+
+/*无边框*/
+input.text_nobd {
+	
+}
+
+input.text_nobd:hover {
+	
+}
+
+/*实线下划线*/
+input.text_udline {
+	border-bottom: 1px solid #CCCCCC;
+}
+
+input.text_udline:hover {
+	border-bottom: 1px solid #CCCCCC;
+}
+
+/*虚线下划线*/
+input.text_dashed {
+	border-bottom: 1px dashed #CCCCCC;
+}
+
+input.text_dashed:hover {
+	border-bottom: 1px dashed #CCCCCC;
+}
+
+/*页面必填项的标识*/
+.bitian {
+	font-size: 12px;
+	color: #ff0000;
+	text-decoration: none;
+	margin: 0 0 0 3;
+}

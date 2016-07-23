@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=GB18030" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />
+<link rel="stylesheet" href="../ext/css/ext-all.css" type="text/css" />
+<link rel="stylesheet" href="../css/icon.css" type="text/css"></link>
+<link rel="stylesheet" href="../css/base.css" type="text/css"></link>
+<link rel="stylesheet" href="../css/forms.css" type="text/css"></link>
+<script type="text/javascript" src="../ext/ext-base.js"></script>
+<script type="text/javascript" src="../ext/ext-all.js"></script>
+<script type="text/javascript" src="../ext/commonext.js"></script>
+<script type="text/javascript" src="../jslib/pagebus/pagebus.js"></script>
+<script type="text/javascript" src="audit.js"></script>
+</head>
+<body onload="init();">
+	<div id="north-div">
+		<table class="table-width">
+			<tr>
+				<td class="t" style="width: 90px"><span>审批结果</span></td>
+				<td class="ts"><input type="radio" id="appresult" value="0"
+					name="appresult" checked onchange="changeappresult();"
+					onClick="this.blur();" />同意<input type="radio" id="resultNo"
+					name="appresult" value="0" onchange="changeappresult();"
+					onClick="this.blur();" />不同意</td>
+			</tr>
+			
+			<tr id="nextuserdiv" style='display: none;'>
+				<td class="t" style="width: 90px"><span>下环节审批人</span></td>
+				<td class="ts"><select id="nextuser" name="nextuser"></select></td>
+			</tr>
+			<tr>
+				<td class="t" style="width: 90px"><span>审批意见</span>
+				<td class="ts"><textarea name="message" id="message" rows="5"
+						style="width: 480px;"></textarea></td>
+
+			</tr>
+		</table>
+		<div id="toolbar"></div>
+	</div>
+
+</body>
+</html>

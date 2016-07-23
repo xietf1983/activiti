@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="category" extends="struts-default" namespace="/">
+		<action name="category!editCategory" class="com.xtsoft.category.action.CategoryAction"
+			method="editCategory"></action>
+		<action name="category!removeCategory" class="com.xtsoft.category.action.CategoryAction"
+			method="removeCategory"></action>
+		<action name="category!getCategoryList" class="com.xtsoft.category.action.CategoryAction"
+			method="getCategoryList"></action>
+		<action name="category!getCategoryByPrimaryKey" class="com.xtsoft.category.action.CategoryAction"
+			method="getCategoryByPrimaryKey"></action>
+		<action name="category!getCategoryTree" class="com.xtsoft.category.action.CategoryAction"
+			method="getCategoryTree"></action>
+	</package>
+	<package name="reimburse" extends="struts-default" namespace="/">
+		<action name="reimburse!editReimburse" class="com.xtsoft.reimburse.action.ReimburseAction"
+			method="editReimburse"></action>
+		<action name="reimburse!removeReimburse" class="com.xtsoft.reimburse.action.ReimburseAction"
+			method="removeReimburse"></action>
+		<action name="reimburse!getReimburseList" class="com.xtsoft.reimburse.action.ReimburseAction"
+			method="getReimburseList"></action>
+		<action name="reimburse!getReimburseDetailList" class="com.xtsoft.reimburse.action.ReimburseAction"
+			method="getReimburseDetailList"></action>
+		<action name="reimburse!startWorkFlowReimburse" class="com.xtsoft.reimburse.action.ReimburseAction"
+			method="startWorkFlowReimburse"></action>
+		<action name="reimburse!loadReimburse" class="com.xtsoft.reimburse.action.ReimburseAction"
+			method="loadReimburse"></action>
+		<action name="reimburse!getReimburseStaticList" class="com.xtsoft.reimburse.action.ReimburseAction"
+			method="getReimburseStaticList"></action>
+
+	</package>
+	<package name="appropriate" extends="struts-default" namespace="/">
+		<action name="appropriate!editAppropriate" class="com.xtsoft.appropriate.action.AppropriateAction"
+			method="editAppropriate"></action>
+		<action name="appropriate!removeAppropriate" class="com.xtsoft.appropriate.action.AppropriateAction"
+			method="removeAppropriate"></action>
+		<action name="appropriate!getAppropriateList" class="com.xtsoft.appropriate.action.AppropriateAction"
+			method="getAppropriateList"></action>
+		<action name="appropriate!loadAppropriate" class="com.xtsoft.appropriate.action.AppropriateAction"
+			method="loadAppropriate"></action>
+		<action name="appropriate!addAppropriateFromJsonList" class="com.xtsoft.appropriate.action.AppropriateAction"
+			method="addAppropriateFromJsonList"></action>
+	</package>
+	<package name="analyse" extends="struts-default" namespace="/">
+		<action name="analyse!getReimburseAndAppropriateList" class="com.xtsoft.analyse.action.AnalyseAction"
+			method="getReimburseAndAppropriateList"></action>
+	</package>
+</struts>

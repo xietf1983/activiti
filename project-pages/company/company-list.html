@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=GB18030" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />
+<link rel="stylesheet" type="text/css" href="../ext/css/ext-all.css" />
+<link rel="stylesheet" href="../css/base.css" type="text/css" />
+<link rel="stylesheet" href="../css/login.css" type="text/css" />
+<link rel="stylesheet" type="text/css" href="../css/forms.css" />
+<link rel="stylesheet" href="../css/icon.css" type="text/css"></link>
+<link rel="stylesheet" href="../css/yav-style.css"></link>
+<script type="text/javascript" src="../ext/ext-base.js"></script>
+<script type="text/javascript" src="../ext/ext-all.js"></script>
+<script type="text/javascript" src="../ext/commonext.js"></script>
+<script type="text/javascript" src="../ext/ext-lang-zh_CN.js"></script>
+<script type="text/javascript" src="../jslib/yav.js"></script>
+<script type="text/javascript" src="../jslib/yav-config.js"></script>
+<script type="text/javascript" src="company-list.js"></script>
+</head>
+<body onload="init();">
+	<div id="toolbar"></div>
+	<div id="mygrid"></div>
+	<div id="window-win-deploy" title="公司主体" class="x-hidden" width="500"
+		height="150" modal=true resizable=false>
+		<div class="x-window-body">
+			<form id="userEdit">
+				<table cellspacing="0" class="table-width">
+					<tr>
+						<td style="height: 25px; width: 25%;" class="t">主体名称<span
+							class="bitian">*</span></td>
+						<td style="height: 0px; width: 75%;" class="ts"><input
+							type="text" style="width: 170px;" id="name" name="name" /></td>
+					</tr>
+					<tr>
+						<td style="height: 25px; width: 25%;" class="t">备注</td>
+						<td style="height: 0px; width: 75%;" class="ts"><input
+							type="text" style="width: 170px;" id="description"
+							name="description" /></td>
+					</tr>
+				</table>
+				<input type="hidden" id="ID" value="">
+			</form>
+		</div>
+	</div>
+</body>
+</html>

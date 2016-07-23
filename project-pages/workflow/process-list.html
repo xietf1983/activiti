@@ -1,0 +1,36 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=GB18030" />
+		<meta http-equiv="pragma" content="no-cache" />
+		<meta http-equiv="cache-control" content="no-cache" />
+		<link rel="stylesheet" href="../ext/css/ext-all.css" type="text/css" />
+		<link rel="stylesheet" href="../css/icon.css" type="text/css"></link>
+		<link rel="stylesheet" href="../css/base.css" type="text/css"></link>
+		<link rel="stylesheet" href="../css/forms.css" type="text/css"></link>
+		<script type="text/javascript" src="../ext/ext-base.js"></script>
+		<script type="text/javascript" src="../ext/ext-all.js"></script>
+		<script type="text/javascript" src="../ext/commonext.js"></script>
+		<script type="text/javascript" src="process-list.js"></script>
+	</head>
+	<body onload="init();">
+		<div id="mygrid">
+		</div>
+		<div id="window-win-deploy" title="流程部署" class="x-hidden" width="500" height="105" modal=true resizable=false>
+			<div class="x-window-body">
+				<form id="upForm" method="post" enctype="multipart/form-data">
+					<table cellspacing="0" class="table-width">
+						<tr>
+							<td style="height: 30px; width: 25%;" class="t">
+								流程文件
+							</td>
+							<td style="height: 0px; width: 75%;" class="ts">
+								<input type="file" id="fileType" name="fileType" style="height: 24px;">
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

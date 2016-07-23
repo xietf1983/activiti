@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=GB18030" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />
+<link rel="stylesheet" href="../css/base.css" type="text/css" />
+<link rel="stylesheet" href="../css/login.css" type="text/css" />
+<link rel="stylesheet" type="text/css" href="../css/forms.css" />
+<link rel="stylesheet" href="../css/icon.css" type="text/css"></link>
+<link rel="stylesheet" href="../css/yav-style.css"></link>
+<link rel="stylesheet" type="text/css" href="../ext/css/ext-all.css" />
+<link rel="stylesheet" type="text/css" href="../ext/ux/css/ux-all.css"
+	rel="stylesheet" />
+<script type='text/javascript' src='../datePicker/WdatePicker.js'></script>
+<script type="text/javascript" src="../ext/ext-base.js"></script>
+<script type="text/javascript" src="../ext/ext-all.js"></script>
+<script type="text/javascript" src="../ext/commonext.js"></script>
+<script type="text/javascript" src="../ext/ext-lang-zh_CN.js"></script>
+<script type="text/javascript" src="../jslib/yav.js"></script>
+<script type="text/javascript" src="../jslib/yav-config.js"></script>
+<script type="text/javascript" src="../ext/ux/ux-all.js"></script>
+<script type='text/javascript' src='../ext/pPageSize.js'></script>
+<script type="text/javascript" src="../jslib/pagebus/pagebus.js"></script>
+<script type="text/javascript" src="appropriate-static.js"></script>
+</head>
+<body onload="init();">
+	<div id="searchdiv">
+		<table class="table-width">
+			<tr>
+				<td class="t" style="width: 70px"><span>主体</span></td>
+				<td class="ts" style="width: 220px"><select id="company_search"
+					name="company_search" style="width: 220px;"><option
+							value=''>请选择</option></select></td>
+				<td class="t" style="width: 70px"><span>所属合伙人</span></td>
+				<td class="ts"><input type="text" style="width: 220px;"
+					id="orgselect" name="orgselect" /></td>
+			</tr>
+			<tr>
+				<td class="t" style="width: 70px"><span>起始日期</span></td>
+				<td class="ts" style="width: 220px"><input name="beginTime0"
+					id="beginTime0" style="width: 220px" class="Wdate"
+					onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" /></td>
+				<td class="t" style="width: 70px"><span>结束日期</span></td>
+				<td class="ts" ><input name="endTime0"
+					id="endTime0" style="width: 220px" class="Wdate"
+					onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" /></td>
+			</tr>
+		</table>
+	</div>
+	<div id="toolbar"></div>
+	<div id="mygrid"></div>
+	<div id="window-win-deploy" title="划拨登记" class="x-hidden" width="600"
+		height="150" modal=true resizable=false>
+		<div class="x-window-body">
+			<form id="userEdit">
+				<table cellspacing="0" class="table-width">
+					<tr>
+						<td style="height: 25px;" class="t"><span class="bitian">*</span>划拨日期</td>
+						<td style="height: 0px;" class="ts"><input
+							name="appropriateDateStr" id="appropriateDateStr"
+							style="width: 120px" class="Wdate"
+							onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" /></td>
+
+						<td style="height: 25px;" class="t"><span class="bitian">*</span>所属合伙人</td>
+						<td style="height: 0px;" class="ts"><select
+							id="deptLeadUserId" style="width: 120px;"></select></td>
+
+					</tr>
+					<tr>
+						<td style="height: 25px;" class="t"><span class="bitian">*</span>金额</td>
+						<td style="height: 0px;" class="ts"><input type="text"
+							style="width: 120px;" id="amount" name="amount" /></td>
+
+						<td style="height: 25px;" class="t"><span class="bitian">*</span>所属主体</td>
+						<td style="height: 0px;" class="ts"><select id="company_text"
+							name="company_text" style="width: 120px;"></td>
+					</tr>
+					<tr>
+						<td style="height: 25px;" class="t">备注</td>
+						<td style="height: 0px;" class="ts" colspan="3"><input
+							type="text" style="width: 370px;" id="description"
+							name="description" /></td>
+					</tr>
+				</table>
+				<input type="hidden" id="ID" value="">
+			</form>
+		</div>
+
+	</div>
+	<div id="window-win-excelWin" title="EXCELL导入校验" class="x-hidden"
+		width="800" height="500" modal=true resizable=false>
+		<div class="x-window-body">
+			<iframe id="fraView2" name="fraView2" frameborder="0" src="appropriate-vadidation.html"
+				height="430" scrolling="no" width='100%'></iframe>
+		</div>
+	</div>
+	<iframe src="about:blank" id="ExcelDownIFrame" style="display: none"></iframe>
+</body>
+</html>

@@ -1,0 +1,107 @@
+/*****¹«ÓÃÍ¼±ê*****/
+.icon-utils-s-add {
+	background: url('../images/icons/add.gif') no-repeat center center;
+}
+
+.icon-utils-s-confirm {
+	background: url('../images/icons/computer-link.png' ) no-repeat center
+		center;
+}
+
+.icon-utils-s-go {
+	background: url('../images/icons/computer-go.png' ) no-repeat center
+		center;
+}
+
+.icon-utils-s-edit {
+	background: url('../images/icons/edit.gif' ) no-repeat center center;
+}
+
+.icon-utils-s-excel {
+	background: url('../images/icons/page-excel.png') no-repeat center
+		center;
+}
+
+.icon-utils-s-data {
+	background: url('../images/icons/page-white_database.png') no-repeat
+		center center;
+}
+
+.icon-utils-s-search {
+	background: url(' ../images/icons/search.png' ) no-repeat center center;
+}
+
+.icon-utils-s-close {
+	background: url('../images/icons/cross.gif' ) no-repeat center center;
+}
+
+.icon-utils-s-delete {
+	background: url( ../images/icons/delete.gif ) no-repeat center center;
+}
+
+.icon-utils-s-release {
+	background: url('../images/icons/folder_go.png' ) no-repeat center
+		center;
+}
+
+.icon-system-view {
+	background: url('../images/icons/application_go.png ' ) no-repeat center
+		center;
+}
+
+.icon-system-refresh {
+	background: url(' ../images/icons/refresh.gif' ) no-repeat center center;
+}
+
+.icon-style-tree {
+	background: url('../images/icons/expand-all.gif' ) no-repeat center
+		center;
+}
+
+.icon-style-tab {
+	background: url('../images/icons/collapse-all.gif' ) no-repeat center
+		center;
+}
+
+.icon-utils-message {
+	background: url('../images/icons/msg.gif' ) no-repeat center center;
+}
+
+.icon-utils-newMsg {
+	background: url('../images/hot.gif' ) no-repeat center center;
+}
+
+.icon-expand-all {
+	background: url('../images/icons/expand-all.gif' ) no-repeat center
+		center;
+}
+
+.icon-collapse-all {
+	background: url('../images/icons/collapse-all.gif' ) no-repeat center
+		center;
+}
+
+.icon-circle-save {
+	background: url('../images/icons/save.gif' ) no-repeat center center;
+}
+
+.icon-circle-colse {
+	background: url('../images/icons/pause.gif') no-repeat center center;
+}
+
+.icon-circle-selectall {
+	background: url('../images/icons/selectall.gif') no-repeat center center;
+}
+
+.icon-circle-dsselectall {
+	background: url('../images/icons/dsselectal.gif') no-repeat center
+		center;
+}
+
+.icon-circle-start {
+	background: url('../images/icons/start.gif') no-repeat center center;
+}
+
+.icon-circle-stop {
+	background: url('../images/icons/stop.gif') no-repeat center center;
+}

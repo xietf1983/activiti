@@ -1,0 +1,119 @@
+@charset "utf-8";
+
+/*===全局页面基础参数========*/
+body,input,table,select,textarea,h1,h2,h3,h4,h5,h6,button,a,span {
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+ul,li {
+	list-style: none;
+	line-height: 150%;
+}
+
+td,th {
+	
+}
+
+em {
+	font-style: normal;
+}
+
+strong,b {
+	font-weight: bold;
+}
+
+body {
+	background: transparent;
+	color: #11449E;
+	position: relative;
+	margin: 0 auto;
+}
+
+a {
+	text-decoration: none;
+	font-size: 12px;
+}
+
+.table-width {
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	border: none;
+	border-top: none;
+	border-collapse: collapse;
+	border-spacing: 0px;
+}
+
+.t {
+	border-bottom: 1px;
+	border-left: 0px;
+	border-top: 0px;
+	border-right: 1px;
+	border-color: #CBDBF3;
+	border-style: solid;
+	background-color: #F0F0F0;
+	font-size: 12px;
+	font-family: "宋体";
+	height: 24px;
+	padding: 5px 0px 0px 10px;
+}
+
+.t1 {
+	border-bottom: 1px;
+	border-left: 0px;
+	border-top: 0px;
+	border-right: 1px;
+	border-color: #CBDBF3;
+	border-style: solid;
+	background-color: #F0F0F0;
+	font-size: 12px;
+	font-family: "宋体";
+	height: 22px;
+	padding: 0px 5px 0px 5px;
+}
+
+.ts1 {
+	border-bottom: 1px;
+	border-left: 0px;
+	border-top: 0px;
+	border-right: 1px;
+	border-color: #CBDBF3;
+	border-style: solid;
+	font-size: 12px;
+	font-family: "宋体";
+	height: 22px;
+	background-color: #FFFFFF;
+}
+
+.ts2 {
+	border-bottom: 1px;
+	border-left: 0px;
+	border-top: 0px;
+	border-right: 1px;
+	border-color: #CBDBF3;
+	border-style: solid;
+	font-size: 12px;
+	font-family: "宋体";
+	background-color: #FFFFFF;
+}
+
+.ts {
+	border-bottom: 1px;
+	border-left: 0px;
+	border-top: 0px;
+	border-right: 1px;
+	border-color: #CBDBF3;
+	border-style: solid;
+	font-size: 12px;
+	font-family: "宋体";
+	height: 22px;
+	background-color: #FFFFFF;
+	padding-left: 5px;
+}

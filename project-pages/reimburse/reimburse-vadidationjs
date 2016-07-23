@@ -1,0 +1,291 @@
+var ds;
+var grid;
+var deployWin;
+Ext.BLANK_IMAGE_URL = '../ext/images/default/s.gif';
+var deployWinView;
+var userwin;
+var userwinedit;
+var procId;
+function init() {
+	Ext.QuickTips.init();
+	var cm = new Ext.grid.ColumnModel([ {
+		header : '名称',
+		dataIndex : 'NAME',
+		sortable : false,
+		align : 'center'
+	}, {
+		header : '版本',
+		dataIndex : 'VERSION',
+		sortable : false,
+		align : 'center'
+	}, {
+		header : '创建时间',
+		dataIndex : 'DEPLYMENTTIME',
+		sortable : false,
+		align : 'center'
+	}, {
+		header : '流程图',
+		dataIndex : 'DEPLOY_TIME_SHOWVALUE',
+		sortable : false,
+		renderer : renderer,
+		align : 'center'
+	}, {
+		header : '流程图',
+		dataIndex : '节点人员管理',
+		sortable : false,
+		renderer : renderKeyBox,
+		align : 'center'
+	} ]);
+	tb = new Ext.Toolbar("");
+	tb.add('&nbsp;&nbsp;&nbsp;&nbsp;');
+	tb.add('<a class="l-btn"  href="javascript:onItemAddCheck()" ><span class="l-btn-left"><span class="l-btn-text  icon-utils-s-add l-btn-icon-left" >增加</span> </span></a>');
+	tb.add('-');
+	tb.add('<a class="l-btn"  href="javascript:onItemDeleteCheck()" ><span class="l-btn-left"><span class="l-btn-text  icon-utils-s-delete l-btn-icon-left" >删除</span> </span></a>');
+	ds = new Ext.data.JsonStore({
+		url : 'getDeploymentDef.do',
+		totalProperty : "total",
+		root : 'rows',
+		fields : [ {
+			name : "ID",
+			type : "string"
+		}, {
+			name : "NAME",
+			type : "string"
+		}, {
+			name : "DEPLYMENTTIME",
+			type : "string"
+		}, {
+			name : "VERSION",
+			type : "string"
+		}, {
+			name : "DEPLOYMENTID",
+			type : "string"
+		}, {
+			name : "RESOURCENAME",
+			type : "string"
+		}, {
+			name : "DGRMRESOURCENAME",
+			type : "string"
+		}, {
+			name : "indexSuspect",
+			type : "string"
+		} ]
+	});
+	grid = new Ext.grid.GridPanel({
+		enableColumnMove : false,
+		enableHdMenu : false,
+		ds : ds,
+		cm : cm,
+		viewConfig : {
+			forceFit : true
+		},
+		tbar : tb,
+		collapsible : false,
+		el : "mygrid",
+		region : "center"
+
+	});
+	ds.load();
+	new Ext.Viewport({ // 注意这里是Viewport，NO ViewPort
+		enableTabScroll : true,
+		layout : "border",
+		items : [ grid ]
+	});
+	//
+	var cmactiviti = new Ext.grid.ColumnModel([ {
+		header : '节点名称',
+		dataIndex : 'ACTIVITINAME',
+		sortable : false,
+		width : 100,
+		align : 'center'
+	}, {
+		header : '人员名称',
+		dataIndex : 'USERS',
+		sortable : false,
+		width : 300,
+		align : 'center'
+	}, {
+		header : '操作',
+		dataIndex : 'ID',
+		sortable : false,
+		width : 80,
+		align : 'center',
+		renderer : renderKeyBoxUser
+	} ]);
+	dsactivit = new Ext.data.JsonStore({
+		url : 'workflow!findActivitiConfigList.do',
+		totalProperty : "total",
+		root : 'rows',
+		fields : [ {
+			name : "ID_",
+			type : "string"
+		}, {
+			name : "NAME_",
+			type : "string"
+		}, {
+			name : "ID",
+			type : "string"
+		}, {
+			name : "USERS",
+			type : "string"
+		}, {
+			name : "PROCKEY",
+			type : "string"
+		}, {
+			name : "ACTIVITIID",
+			type : "string"
+		}, {
+			name : "ACTIVITINAME",
+			type : "string"
+		} ]
+	});
+	dsactivit.on("beforeload", function(thiz, options) {
+		thiz.baseParams["ID"] = procId;
+	});
+	gridactivit = new Ext.grid.GridPanel({
+		enableColumnMove : false,
+		enableHdMenu : false,
+		ds : dsactivit,
+		cm : cmactiviti,
+		viewConfig : {
+			forceFit : true
+		},
+		border:false,
+		height : 410,
+		stripeRows : true,
+		collapsible : false,
+		el : "activimygrid"
+	});
+	gridactivit.render();
+}
+
+function showUsersWin2(id, name) {
+	document.getElementById("ID").value = id;
+	if (userwinedit == null) {
+		userwinedit = _window('window-win-users2');
+		userwinedit.height = 448;
+		userwinedit.addButton('关闭', docloseWinUSER2);
+	}
+	document.getElementById('fraView').src = "userconfigmap.html?GROUPID=" + id + "&GROUPNAME=" + encodeURI(name)
+	userwinedit.show();
+
+}
+
+function docloseWinUSER2() {
+	userwinedit.hide();
+}
+
+
+function renderKeyBoxUser(value, p, record, rowIndex) {
+	var name = record.data.ACTIVITINAME
+	return "<a  title='节点人员管理' href=javascript:showUsersWin2('" + value + "','" + name + "')>人员管理</a>";
+	//alert()
+}
+function renderKeyBox(value, p, record, rowIndex) {
+	var id = record.data.ID
+	return "<a  title='节点人员管理' href=javascript:showUsersWin('" + id + "')>人员管理</a>";
+}
+
+function showUsersWin(id) {
+	if (userwin == null) {
+		userwin = _window('window-win-users');
+		userwin.height = 480;
+		userwin.addButton('关闭', docloseuserwinWin);
+	}
+	procId = id;
+	// document.getElementById('fraView').src = "userconfig-list.html?PROCID=" +
+	// id;
+	dsactivit.load();
+	userwin.show();
+
+}
+function docloseuserwinWin() {
+	userwin.hide();
+}
+
+function onItemAddCheck() {
+	document.getElementById("inner").innerHTML = '<input type="file" id="inputFile" name="inputFile" style="height:22px;">';
+	if (deployWin == null) {
+		deployWin = _window('window-win-deploy');
+		deployWin.height = 110;
+		deployWin.addButton('确定', doSaveItem);
+		deployWin.addButton('取消', docloseWin);
+	}
+	deployWin.show();
+
+}
+
+function doSaveItem() {
+	Ext.Ajax.request({
+		url : '../uploadFile?uploadType=deployProcess',
+		isUpload : true,
+		form : "upForm",
+		success : function(data, options) {
+			_alert("流程发布成功");
+			deployWin.hide();
+			ds.load();
+		}
+	});
+}
+
+function onItemDeleteCheck() {
+	var list = grid.getSelectionModel().getSelections();
+	if (list.length > 0) {
+		_confirm('删除后不可恢复，您确认要删除吗？', deleteUserConFirm);
+	} else {
+		_alert("请选择要删除的流程定义");
+	}
+
+}
+
+function deleteUserConFirm(btn) {
+	if (btn == 'no') {
+		return false;
+	}
+	if (btn == 'yes') {
+		var selectedRows = grid.getSelectionModel().getSelections();
+		if (selectedRows.length < 1) {
+			_alert("请选择要删除的流程定义");
+			return;
+		} else {
+			Ext.Ajax.request({
+				url : 'workflow!deleteDeployment.do',
+				method : 'post',
+				params : {
+					ID : selectedRows[0].data['DEPLOYMENTID']
+				},
+				success : function(data, options) {
+					ds.load();
+				}
+			});
+		}
+	}
+}
+
+function renderer(value, p, record, rowIndex) {
+	var deploymentId = record.data.ID;
+	return "<span  style=\"cursor:pointer;background: url('../images/icons/pkg.gif') no-repeat center center;\"  onclick='javascript:goprocessDefinition(\"" + deploymentId + "\")'><a>&nbsp;&nbsp;&nbsp;&nbsp;</a></span>";
+}
+
+function goprocessDefinition(v) {
+	if (deployWinView == null) {
+		deployWinView = _window('window-win-dept');
+		deployWinView.height = 350;
+		deployWinView.addButton('关闭', docloseDefinition);
+	}
+	document.getElementById('processDefinitionIdpng').src = 'loadByDeployment.do?processDefinitionId=' + v;
+	deployWinView.show();
+}
+function docloseDefinition() {
+	deployWinView.hide();
+}
+function rendererXml(value, p, record, rowIndex) {
+	var deploymentId = record.data.DEPLOYMENT_ID_;
+	var resourceName = record.data.RESOURCE_NAME_;
+	var buffer = "<a target='_blank' href='loadByDeployment.do?deploymentId=" + deploymentId + "&resourceName=" + resourceName + "'><img src src='../images/icons/class.gif'/></a>";
+	return buffer;
+}
+
+function docloseWin() {
+	deployWin.hide();
+}

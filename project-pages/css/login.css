@@ -1,0 +1,143 @@
+.login_right DL {
+	width: 200px;
+}
+
+.login_right DT {
+	line-height: 20px;
+	margin: 7px 0px;
+	float: left;
+	height: 20px;
+}
+
+.login_right DD {
+	line-height: 20px;
+	margin: 7px 0px;
+	float: left;
+	height: 20px;
+}
+
+.login_right .btn_dl {
+	border-right-width: 0px !important;
+	margin: 0px 1px;
+	outline-width: 0px;
+	border-top-width: 0px !important;
+	border-bottom-width: 0px !important;
+	border-left-width: 0px !important;
+	cursor: pointer;
+}
+
+.login_right .btn_cz {
+	border-right-width: 0px !important;
+	margin: 0px 1px;
+	outline-width: 0px;
+	border-top-width: 0px !important;
+	border-bottom-width: 0px !important;
+	border-left-width: 0px !important;
+	cursor: pointer;
+}
+
+login_bg {
+	background: url(../images/login_bg.jpg) #fff repeat-x left top;
+	position: fixed;
+	
+}
+
+.login_main {
+	margin: 0px auto;
+	position: relative;
+	width: 891px;
+}
+
+.login_logo {
+	text-align: left;
+	margin-top:20px;
+	min-height: 90px;
+	width: 891px;
+	height: 90px;
+}
+
+.login_logo H2 {
+	margin-top: 20px;
+}
+
+.login_logo H3 {
+	margin-top: 20px;
+	float: left;
+}
+
+.login_left {
+	width: 426px;
+	background: url(../images/login_left.jpg) no-repeat;
+	float: left;
+	height: 340px;
+}
+
+.login_left .login_pic {
+	margin: 29px 0px 0px;
+}
+
+.login_right {
+	text-align: left;
+	width: 462px;
+	background: url(../images/login_right.jpg) no-repeat;
+	float: left;
+	height: 340px;
+}
+
+.login_right DL {
+	margin: 92px 0px 0px 105px;
+	min-height: 150px;
+	width: 220px;
+	_height: 150px;
+}
+
+.login_copyright A {
+	line-height: 23px;
+	padding-left: 25px;
+	display: inline-block;
+	background: url(../images/logo_copy.gif) no-repeat left center;
+	height: 23px;
+	color: #60819d !important;
+}
+
+.login_copyright SPAN {
+	line-height: 23px;
+	display: inline-block;
+	height: 23px;
+	color: #60819d;
+}
+
+.login_right .btn_dl {
+	margin: 0px 4px;
+	width: 58px;
+	height: 20px;
+}
+
+.login_right .btn_cz {
+	margin: 0px 4px;
+	width: 58px;
+	height: 20px;
+}
+
+.login_right .uesr {
+	text-indent: 1.5em;
+	background: url(../images/login_ico2.gif) no-repeat left 0px;
+}
+
+.login_right .passw {
+	text-indent: 1.5em;
+	background: url(../images/login_ico2.gif) no-repeat left -28px;
+}
+
+.login_right .yzm {
+	text-indent: 1.5em;
+	background: url(../images/login_ico2.gif) no-repeat left -88px;
+}
+
+.login_right .btn_dl {
+	background: url(../images/login_in.gif) no-repeat;
+}
+
+.login_right .btn_cz {
+	background: url(../images/login_res.gif) no-repeat;
+}
