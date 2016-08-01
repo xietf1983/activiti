@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="role" extends="struts-default" namespace="/">
+		<action name="getRoleList" class="com.xtsoft.kernel.role.action.RoleAction"
+			method="getRoleList"></action>
+		<action name="editRole" class="com.xtsoft.kernel.role.action.RoleAction"
+			method="editRole"></action>
+		<action name="deleteRole" class="com.xtsoft.kernel.role.action.RoleAction"
+			method="deleteRole"></action>
+		<action name="getRoleMenuList" class="com.xtsoft.kernel.role.action.RoleAction"
+			method="getRoleMenuList"></action>
+		<action name="editRoleMenuList" class="com.xtsoft.kernel.role.action.RoleAction"
+			method="editRoleMenuList"></action>
+		<action name="findUserListByRoleId" class="com.xtsoft.kernel.role.action.RoleAction"
+			method="findUserListByRoleId"></action>
+		<action name="editRoleUserList" class="com.xtsoft.kernel.role.action.RoleAction"
+			method="editRoleUserList"></action>
+		<action name="removeRoleUserList" class="com.xtsoft.kernel.role.action.RoleAction"
+			method="removeRoleUserList"></action>
+	</package>
+	<package name="organization" extends="struts-default"
+		namespace="/">
+		<action name="editOrganization"
+			class="com.xtsoft.kernel.organization.action.OrganizationAction"
+			method="editOrganization"></action>
+		<action name="removeOrganization"
+			class="com.xtsoft.kernel.organization.action.OrganizationAction"
+			method="removeOrganization"></action>
+		<action name="getOrganizationList"
+			class="com.xtsoft.kernel.organization.action.OrganizationAction"
+			method="getOrganizationList"></action>
+		<action name="getOrganizationGridList"
+			class="com.xtsoft.kernel.organization.action.OrganizationAction"
+			method="getOrganizationGridList"></action>
+
+		<action name="getOrganizationTree"
+			class="com.xtsoft.kernel.organization.action.OrganizationAction"
+			method="getOrganizationTree"></action>
+		<action name="getOrganizationByPrimaryKey"
+			class="com.xtsoft.kernel.organization.action.OrganizationAction"
+			method="getOrganizationByPrimaryKey"></action>
+		<action name="updateSortOrganization"
+			class="com.xtsoft.kernel.organization.action.OrganizationAction"
+			method="updateSortOrganization"></action>
+	</package>
+	<package name="menu" extends="struts-default" namespace="/">
+		<action name="getMenuByParent" class="com.xtsoft.kernel.menu.action.MenuAction"
+			method="getMenuByParent"></action>
+		<action name="menu!getMenuByUserIdAndParent" class="com.xtsoft.kernel.menu.action.MenuAction"
+			method="getMenuByUserIdAndParent"></action>
+	</package>
+	<package name="company" extends="struts-default" namespace="/">
+		<action name="companyAction!getCompanyList" class="com.xtsoft.kernel.company.action.CompanyAction"
+			method="getCompanyList"></action>
+		<action name="companyAction!editCompany" class="com.xtsoft.kernel.company.action.CompanyAction"
+			method="editCompany"></action>
+		<action name="companyAction!deleteCompany" class="com.xtsoft.kernel.company.action.CompanyAction"
+			method="deleteCompany"></action>
+		<action name="companyAction!updateSortCompany" class="com.xtsoft.kernel.company.action.CompanyAction"
+			method="updateSortCompany"></action>
+	</package>
+	<package name="user" extends="struts-default" namespace="/">
+		<action name="userAction!getUserList" class="com.xtsoft.kernel.user.action.UserAction"
+			method="getUserList"></action>
+		<action name="userAction!editUser" class="com.xtsoft.kernel.user.action.UserAction"
+			method="editUser"></action>
+		<action name="userAction!getUserOrgList" class="com.xtsoft.kernel.user.action.UserAction"
+			method="getUserOrgList"></action>
+		<action name="userAction!getUserSelectedOrgList" class="com.xtsoft.kernel.user.action.UserAction"
+			method="getUserSelectedOrgList"></action>
+		<action name="userAction!editUserStatus" class="com.xtsoft.kernel.user.action.UserAction"
+			method="editUserStatus"></action>
+		<action name="userAction!getCurrentUser" class="com.xtsoft.kernel.user.action.UserAction"
+			method="getCurrentUser"></action>
+	</package>
+	<package name="login" extends="struts-default" namespace="/">
+		<action name="loginAction!checkUserAccount" class="com.xtsoft.login.LoginAction"
+			method="checkUserAccount"></action>
+		<action name="loginAction!logOut" class="com.xtsoft.login.LoginAction"
+			method="logOut"></action>
+		<action name="loginAction!updateUserPassword" class="com.xtsoft.login.LoginAction"
+			method="updateUserPassword"></action>
+
+	</package>
+
+</struts>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	<bean id="dbProperties"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:db-oracle.properties" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+	</bean>
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass">
+			<value>${driverClass}</value>
+		</property>
+		<property name="jdbcUrl">
+			<value>${jdbcUrl}</value>
+		</property>
+		<property name="user">
+			<value>${user}</value>
+		</property>
+		<property name="password">
+			<value>${password}</value>
+		</property>
+		<property name="initialPoolSize">
+			<value>${initialPoolSize}</value>
+		</property>
+		<property name="maxPoolSize">
+			<value>${maxPoolSize}</value>
+		</property>
+		<property name="maxIdleTime">
+			<value>${maxIdleTime}</value>
+		</property>
+		<property name="acquireIncrement">
+			<value>${acquireIncrement}</value>
+		</property>
+		<property name="idleConnectionTestPeriod">
+			<value>${idleConnectionTestPeriod}</value>
+		</property>
+		<property name="preferredTestQuery">
+			<value>${preferredTestQuery}</value>
+		</property>
+		<property name="acquireRetryAttempts">
+			<value>${acquireRetryAttempts}</value>
+		</property>
+		<property name="acquireRetryDelay">
+			<value>${acquireRetryDelay}</value>
+		</property>
+		<property name="checkoutTimeout">
+			<value>30000</value>
+		</property>
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" value="classpath:sqlmap/oracle/*.xml" />
+	</bean>
+	<bean id="basePersistence" abstract="true">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="load*" read-only="true" />
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut id="netmanagerServiceOperation" expression="bean(*Service)" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="netmanagerServiceOperation" />
+	</aop:config>
+	<bean id="com.xtsoft.kernel.counter.persistence.CounterPersistence"
+		class="com.xtsoft.kernel.counter.persistence.CounterPersistence"
+		parent="basePersistence">
+	</bean>
+	<bean id="com.xtsoft.kernel.counter.service.CounterService" class="com.xtsoft.kernel.counter.service.CounterService">
+		<property name="persistence"
+			ref="com.xtsoft.kernel.counter.persistence.CounterPersistence" />
+	</bean>
+	<bean id="com.xtsoft.kernel.counter.CounterServiceUtil" class="com.xtsoft.kernel.counter.CounterServiceUtil">
+		<property name="service"
+			ref="com.xtsoft.kernel.counter.service.CounterService" />
+	</bean>
+
+	<bean id="com.xtsoft.kernel.menu.persistence.MenuPersistence"
+		class="com.xtsoft.kernel.menu.persistence.MenuPersistence" parent="basePersistence">
+	</bean>
+	<bean id="com.xtsoft.kernel.menu.service.MenuService" class="com.xtsoft.kernel.menu.service.MenuService">
+		<property name="persistence"
+			ref="com.xtsoft.kernel.menu.persistence.MenuPersistence" />
+	</bean>
+	<bean id="com.xtsoft.kernel.menu.MenuServiceUtil" class="com.xtsoft.kernel.menu.MenuServiceUtil">
+		<property name="service" ref="com.xtsoft.kernel.menu.service.MenuService" />
+	</bean>
+
+	<bean id="com.xtsoft.kernel.role.persistence.RolePersistence"
+		class="com.xtsoft.kernel.role.persistence.RolePersistence" parent="basePersistence">
+	</bean>
+	<bean id="com.xtsoft.kernel.role.service.RoleService" class="com.xtsoft.kernel.role.service.RoleService">
+		<property name="persistence"
+			ref="com.xtsoft.kernel.role.persistence.RolePersistence" />
+		<property name="userPersistence"
+			ref="com.xtsoft.kernel.user.persistence.UserPersistence" />
+	</bean>
+	<bean id=" com.xtsoft.kernel.role.RoleServiceUtil" class="com.xtsoft.kernel.role.RoleServiceUtil">
+		<property name="service" ref="com.xtsoft.kernel.role.service.RoleService" />
+	</bean>
+
+	<bean id="com.xtsoft.kernel.user.persistence.UserPersistence"
+		class="com.xtsoft.kernel.user.persistence.UserPersistence" parent="basePersistence">
+	</bean>
+	<bean id="com.xtsoft.kernel.user.service.UserService" class="com.xtsoft.kernel.user.service.UserService">
+		<property name="persistence"
+			ref="com.xtsoft.kernel.user.persistence.UserPersistence" />
+	</bean>
+	<bean id="com.xtsoft.kernel.user.UserServiceUtil" class="com.xtsoft.kernel.user.UserServiceUtil">
+		<property name="service" ref="com.xtsoft.kernel.user.service.UserService" />
+	</bean>
+
+	<bean id="com.xtsoft.kernel.group.persistence.GroupPersistence"
+		class="com.xtsoft.kernel.group.persistence.GroupPersistence" parent="basePersistence">
+	</bean>
+	<bean id="com.xtsoft.kernel.group.service.GroupService" class="com.xtsoft.kernel.group.service.GroupService">
+		<property name="persistence"
+			ref="com.xtsoft.kernel.group.persistence.GroupPersistence" />
+	</bean>
+	<bean id="com.xtsoft.kernel.group.GroupServiceUtil" class="com.xtsoft.kernel.group.GroupServiceUtil">
+		<property name="service" ref="com.xtsoft.kernel.group.service.GroupService" />
+	</bean>
+	<bean
+		id="com.xtsoft.kernel.organization.persistence.OrganizationPersistence"
+		class="com.xtsoft.kernel.organization.persistence.OrganizationPersistence"
+		parent="basePersistence">
+	</bean>
+	<bean id="com.xtsoft.kernel.organization.service.OrganizationService"
+		class="com.xtsoft.kernel.organization.service.OrganizationService">
+		<property name="persistence"
+			ref="com.xtsoft.kernel.organization.persistence.OrganizationPersistence" />
+	</bean>
+	<bean id="com.xtsoft.kernel.organization.OrganizationServiceUtil"
+		class="com.xtsoft.kernel.organization.OrganizationServiceUtil">
+		<property name="service"
+			ref="com.xtsoft.kernel.organization.service.OrganizationService" />
+	</bean>
+
+	<bean id="com.xtsoft.kernel.company.persistence.CompanyPersistence"
+		class="com.xtsoft.kernel.company.persistence.CompanyPersistence"
+		parent="basePersistence">
+	</bean>
+	<bean id="com.xtsoft.kernel.company.service.CompanyService" class="com.xtsoft.kernel.company.service.CompanyService">
+		<property name="persistence"
+			ref="com.xtsoft.kernel.company.persistence.CompanyPersistence" />
+	</bean>
+	<bean id="com.xtsoft.kernel.company.CompanyServiceUtil" class="com.xtsoft.kernel.company.CompanyServiceUtil">
+		<property name="service"
+			ref="com.xtsoft.kernel.company.service.CompanyService" />
+	</bean>
+	<bean id="com.xtsoft.kernel.security.service.ActService" class="com.xtsoft.kernel.security.service.ActService">
+	</bean>
+	<bean id="com.xtsoft.kernel.security.ActServiceUtil" class="com.xtsoft.kernel.security.ActServiceUtil">
+		<property name="service"
+			ref="com.xtsoft.kernel.security.service.ActService" />
+	</bean>
+</beans>

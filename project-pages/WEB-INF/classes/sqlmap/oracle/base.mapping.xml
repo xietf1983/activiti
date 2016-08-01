@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xtsoft.kernel.base.model">
+
+	<!-- COUNTER INSERT -->
+
+	<insert id="counter_insert" parameterType="com.xtsoft.kernel.counter.model.Counter">
+		insert into COUNTER_
+		(NAME, CURRENTID) values
+		(#{name,jdbcType=NUMERIC},#{currentId,jdbcType=NUMERIC})
+	</insert>
+
+	<!-- COUNTER UPDATE -->
+
+	<update id="counter_update" parameterType="com.xtsoft.kernel.counter.model.Counter">
+		update COUNTER_
+		<set>
+			CURRENTID = #{currentId,jdbcType=NUMERIC}
+		</set>
+		where NAME= #{name,jdbcType=VARCHAR}
+	</update>
+	<resultMap id="counterResultMap" type="com.xtsoft.kernel.counter.model.Counter">
+		<id property="name" column="NAME" />
+		<result property="currentId" column="CURRENTID" />
+	</resultMap>
+
+	<!-- COUNTER SELECT -->
+
+	<select id="counter_fetchByPrimaryKey" parameterType="string"
+		resultMap="counterResultMap">
+		select * from COUNTER_ where NAME = #{name,jdbcType=VARCHAR}
+	</select>
+
+	<!-- role -->
+
+	<insert id="role_insert" parameterType="com.xtsoft.kernel.role.model.Role">
+		insert into role_
+		(ROLEID,
+		NAME,DESCRIPTION) values
+		(#{roleId,jdbcType=NUMERIC},#{name,jdbcType=VARCHAR},#{description,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="role_update" parameterType="com.xtsoft.kernel.role.model.Role">
+		update role_ set
+		NAME
+		=#{name,jdbcType=VARCHAR},DESCRIPTION=#{description,jdbcType=VARCHAR}
+		where
+		ROLEID= #{roleId,jdbcType=NUMERIC}
+	</update>
+
+
+	<delete id="role_delete" parameterType="long">
+		delete from role_ where
+		ROLEID= #{roleId,jdbcType=NUMERIC}
+	</delete>
+
+	<select id="role_fetchByPrimaryKey" parameterType="long"
+		resultType="com.xtsoft.kernel.role.model.Role">
+		SELECT roleId,
+		name,description FROM
+		role_ where
+		ROLEID
+		=#{roleId,jdbcType=NUMERIC}
+	</select>
+
+	<select id="role_list_fetchByMap" parameterType="java.util.HashMap"
+		resultType="java.util.HashMap">
+		SELECT ROLEID,
+		NAME,DESCRIPTION FROM role_ where 1=1
+	</select>
+	<select id="menu_List_fetchByUserid" parameterType="java.util.HashMap"
+		resultType="com.xtsoft.kernel.menu.model.Menu">
+		SELECT
+		ID,PARENT,ICON as
+		iconCls,TARGETURL,TYPE,TEXT,SORTID,DESCRIPTION from menu_ where
+		PARENT= #{PARENT} and ID IN (SELECT MENUID FROM role_menu WHERE ROLEID
+		IN (SELECT ROLEID FROM users_roles WHERE USERID =#{USERID})) ORDER BY
+		SORTID
+	</select>
+	<select id="menu_List_fetchByParentId" parameterType="long"
+		resultType="com.xtsoft.kernel.menu.model.Menu">
+		SELECT
+		ID,PARENT,ICON as iconCls
+		,TARGETURL,TYPE,TEXT,SORTID,DESCRIPTION from menu_ where
+		PARENT= #{id}
+	</select>
+	<select id="menu_List_fetchByRoleId" parameterType="long"
+		resultType="string">
+		SELECT MENUID FROM role_menu WHERE ROLEID =
+		#{id,jdbcType=NUMERIC}
+	</select>
+	<delete id="role_menu_delete" parameterType="java.util.HashMap">
+		delete from role_menu
+		<where>
+			<if test="ROLEID != null">
+				ROLEID = #{ROLEID,jdbcType=NUMERIC}
+			</if>
+			<if test="MENUID != null">
+				and MENUID = #{MENUID,jdbcType=NUMERIC}
+			</if>
+		</where>
+	</delete>
+	<insert id="role_menu_insert" parameterType="java.util.HashMap">
+		insert into
+		role_menu
+		(ROLEID, MENUID) values
+		(#{ROLEID,jdbcType=NUMERIC},#{MENUID,jdbcType=NUMERIC})
+	</insert>
+	<select id="role_menu_contains" parameterType="java.util.HashMap"
+		resultType="long">
+		SELECT count(*) FROM role_menu WHERE ROLEID =
+		#{ROLEID,jdbcType=NUMERIC} and
+		MENUID = #{MENUID,jdbcType=NUMERIC}
+	</select>
+	<select id="users_Roles_fetchbyPrimarykey" parameterType="java.util.HashMap"
+		resultType="long">
+		SELECT count(*) FROM users_roles WHERE ROLEID =
+		#{ROLEID,jdbcType=NUMERIC}
+		and USERID = #{USERID,jdbcType=NUMERIC}
+	</select>
+	<insert id="users_Roles_insert" parameterType="java.util.HashMap">
+		insert into
+		users_roles
+		(USERID, ROLEID) values
+		(#{USERID,jdbcType=NUMERIC},#{ROLEID,jdbcType=NUMERIC})
+	</insert>
+	<delete id="users_Roles_delete" parameterType="java.util.HashMap">
+		delete from users_roles
+		<where>
+			<if test="ROLEID != null">
+				ROLEID = #{ROLEID,jdbcType=NUMERIC}
+			</if>
+			<if test="USERID != null">
+				and USERID = #{USERID,jdbcType=NUMERIC}
+			</if>
+		</where>
+	</delete>
+	<!--user -->
+	<insert id="user_insert" parameterType="com.xtsoft.kernel.user.model.User">
+		insert into user_
+		(USERID,
+		CREATEDATE,MODIFIEDDATE,DEFAULTUSER,PASSWORD,PASSWORDMODIFIEDDATE,
+		REMINDERQUERYQUESTION,REMINDERQUERYANSWER , SCREENNAME,EMAILADDRESS
+		,GREETING,USERNAME,JOBTITLE,LOGINDATE,LOGINIP,LASTLOGINDATE,LASTLOGINIP,STATUS,
+		EMPLOYEENUMBER,MALE,BIRTHDAY,TEL,DESCRIPTION,ORGANIZATIONID,USERTYPE)values
+		(#{userId,jdbcType=NUMERIC},#{createDate,jdbcType=DATE},#{modifiedDate,jdbcType=DATE},#{defaultUser,jdbcType=NUMERIC},#{password,jdbcType=VARCHAR},
+		#{passwordModifiedDate,jdbcType=DATE},#{reminderQueryQuestion,jdbcType=VARCHAR},#{reminderQueryAnswer,jdbcType=VARCHAR},#{screenName,jdbcType=VARCHAR},#{emailAddress,jdbcType=VARCHAR},
+		#{greeting,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{jobTitle,jdbcType=VARCHAR},#{loginDate,jdbcType=DATE},#{loginIP,jdbcType=VARCHAR},#{lastLoginDate,jdbcType=DATE},#{lastLoginIP,jdbcType=VARCHAR},#{status,jdbcType=NUMERIC}
+		,#{employeeNumber,jdbcType=VARCHAR},#{male,jdbcType=NUMERIC},#{birthday,jdbcType=DATE},#{tel,jdbcType=VARCHAR},#{description,jdbcType=VARCHAR},#{organizationId,jdbcType=NUMERIC},#{userType,jdbcType=NUMERIC})
+	</insert>
+
+	<update id="user_update" parameterType="com.xtsoft.kernel.user.model.User">
+		update user_ set
+		CREATEDATE=#{createDate,jdbcType=DATE},MODIFIEDDATE=#{modifiedDate,jdbcType=DATE},DEFAULTUSER=#{defaultUser,jdbcType=NUMERIC},PASSWORD=#{password},PASSWORDMODIFIEDDATE=#{passwordModifiedDate,jdbcType=DATE},
+		REMINDERQUERYQUESTION=#{reminderQueryQuestion,jdbcType=VARCHAR},REMINDERQUERYANSWER=#{reminderQueryAnswer,jdbcType=VARCHAR},
+		SCREENNAME=#{screenName,jdbcType=VARCHAR},EMAILADDRESS=#{emailAddress,jdbcType=VARCHAR}
+		,GREETING=#{greeting,jdbcType=VARCHAR},USERNAME=#{userName,jdbcType=VARCHAR},JOBTITLE=#{jobTitle,jdbcType=VARCHAR},LOGINDATE=#{loginDate,jdbcType=DATE},LOGINIP=#{loginIP,jdbcType=VARCHAR},LASTLOGINDATE=#{lastLoginDate,jdbcType=DATE},LASTLOGINIP=#{lastLoginIP,jdbcType=VARCHAR},STATUS=#{status,jdbcType=NUMERIC},
+		EMPLOYEENUMBER=#{employeeNumber},MALE=#{male,jdbcType=NUMERIC},BIRTHDAY=#{birthday,jdbcType=DATE},TEL=#{tel,jdbcType=VARCHAR},DESCRIPTION=#{description,jdbcType=VARCHAR},ORGANIZATIONID=
+		#{organizationId,jdbcType=NUMERIC},USERTYPE=#{userType,jdbcType=NUMERIC}
+		where USERID= #{userId,jdbcType=NUMERIC}
+	</update>
+
+	<select id="user_list_fetchByUser" parameterType="java.util.HashMap"
+		resultType="java.util.HashMap">
+		SELECT USERID,GREETING,JOBTITLE,TEL,USERTYPE,
+		USERNAME,SCREENNAME,EMAILADDRESS,PASSWORD,TEL,STATUS,ORGANIZATIONID,(select
+		TEXT from organization_ o where o.ORGANIZATIONID=w.ORGANIZATIONID ) as
+		ORGANIZATIONIDNAME
+		FROM user_ w
+		<where>
+			<if test="KEYNAME != null">
+				AND (USERNAME LIKE #{KEYNAME} OR EMAILADDRESS LIKE
+				#{KEYNAME})
+			</if>
+			<if test="ORGANIZATIONID != null">
+				AND (ORGANIZATIONID =#{ORGANIZATIONID})
+			</if>
+			<if test="STATUS != null">
+				AND (STATUS =#{STATUS})
+			</if>
+			<if test="USER != null">
+				EMAILADDRESS =#{USER}
+			</if>
+		</where>
+	</select>
+	<select id="user_count_fetchByUser" parameterType="java.util.HashMap"
+		resultType="long">
+		SELECT COUNT(*)
+		FROM user_ w
+		<where>
+			<if test="KEYNAME != null">
+				AND (USERNAME LIKE #{KEYNAME} OR EMAILADDRESS LIKE
+				#{KEYNAME})
+			</if>
+			<if test="ORGANIZATIONID != null">
+				AND (ORGANIZATIONID =#{ORGANIZATIONID})
+			</if>
+			<if test="STATUS != null">
+				AND (STATUS =#{STATUS})
+			</if>
+			<if test="USER != null">
+				EMAILADDRESS =#{USER}
+			</if>
+		</where>
+	</select>
+	<select id="user_fetchByPrimaryKey" parameterType="long"
+		resultType="com.xtsoft.kernel.user.model.User">
+		SELECT USERID,USERTYPE,
+		CREATEDATE,MODIFIEDDATE,DEFAULTUSER,PASSWORD,PASSWORDMODIFIEDDATE,
+		REMINDERQUERYQUESTION,REMINDERQUERYANSWER , SCREENNAME,EMAILADDRESS
+		,GREETING,USERNAME,JOBTITLE,LOGINDATE,LOGINIP,LASTLOGINDATE,LASTLOGINIP,STATUS,
+		EMPLOYEENUMBER,MALE,BIRTHDAY,TEL,DESCRIPTION,ORGANIZATIONID
+		FROM user_
+		w where USERID= #{userId}
+	</select>
+
+	<select id="user_list_fetchByRoleId" parameterType="java.util.HashMap"
+		resultType="java.util.HashMap">
+		SELECT USERID, USERNAME,SCREENNAME,EMAILADDRESS FROM user_ w
+		<where>
+			<if test="ROLEIN != null">
+				USERID IN(SELECT USERID FROM users_roles WHERE
+				ROLEID=#{ROLEID})
+			</if>
+			<if test="ROLENOTIN != null">
+				AND (USERID NOT IN(SELECT USERID FROM users_roles WHERE
+				ROLEID=#{ROLEID} ))
+			</if>
+			<if test="USERNAME != null">
+				AND (USERNAME LIKE #{USERNAME} OR EMAILADDRESS LIKE
+				#{USERNAME})
+			</if>
+		</where>
+	</select>
+	<select id="user_count_fetchByRoleId" parameterType="java.util.HashMap"
+		resultType="long">
+		SELECT COUNT(*) FROM user_ w
+		<where>
+			<if test="ROLEIN != null">
+				USERID IN(SELECT USERID FROM users_roles WHERE
+				ROLEID=#{ROLEID})
+			</if>
+			<if test="ROLENOTIN != null">
+				AND (USERID NOT IN(SELECT USERID FROM users_roles WHERE
+				ROLEID=#{ROLEID} ))
+			</if>
+			<if test="USERNAME != null">
+				AND (USERNAME LIKE #{USERNAME} OR SCREENNAME LIKE
+				#{USERNAME})
+			</if>
+		</where>
+	</select>
+
+	<insert id="organization_insert" parameterType="com.xtsoft.kernel.organization.model.Organization">
+		insert into
+		organization_
+		(ORGANIZATIONID,
+		PARENTORGANIZATIONID,COMMENTS,CREATEDATE,MODIFIEDDATE,USERID,USERNAME,FULLPATH,TEXT,ACTIVE,SORTID)
+		values
+		(#{organizationId,jdbcType=NUMERIC},#{parentOrganizationId,jdbcType=NUMERIC},#{comments,jdbcType=VARCHAR},#{createDate,jdbcType=DATE},#{modifiedDate,jdbcType=DATE},#{userId,jdbcType=NUMERIC},#{userName,jdbcType=VARCHAR},#{fullPath,jdbcType=VARCHAR},#{text,jdbcType=VARCHAR},#{active,jdbcType=NUMERIC},#{sortId,jdbcType=NUMERIC})
+	</insert>
+
+	<update id="organization_update" parameterType="com.xtsoft.kernel.organization.model.Organization">
+		update
+		organization_
+		set
+		TEXT=#{text,jdbcType=VARCHAR},SORTID=#{sortId,jdbcType=NUMERIC},
+		PARENTORGANIZATIONID=#{parentOrganizationId},COMMENTS=#{comments,jdbcType=VARCHAR},CREATEDATE=#{createDate,jdbcType=DATE},MODIFIEDDATE=#{modifiedDate,jdbcType=DATE},
+		USERID=#{userId,jdbcType=NUMERIC},USERNAME=#{userName,jdbcType=VARCHAR},FULLPATH=#{fullPath,jdbcType=VARCHAR},ACTIVE=#{active,jdbcType=NUMERIC}
+		where
+		ORGANIZATIONID= #{organizationId,jdbcType=NUMERIC}
+	</update>
+
+
+	<delete id="organization_delete" parameterType="long">
+		delete from
+		organization_
+		where
+		ORGANIZATIONID= #{ORGANIZATIONID}
+	</delete>
+
+	<select id="organization_fetchByPrimaryKey" parameterType="long"
+		resultType="com.xtsoft.kernel.organization.model.Organization">
+		SELECT ORGANIZATIONID,
+		PARENTORGANIZATIONID,COMMENTS,CREATEDATE,MODIFIEDDATE,USERID,USERNAME,FULLPATH,TEXT,ACTIVE,SORTID
+		FROM
+		organization_ where
+		ORGANIZATIONID =#{ORGANIZATIONID}
+	</select>
+	<!-- -->
+	<select id="organization_fetchByName" parameterType="string"
+		resultType="com.xtsoft.kernel.organization.model.Organization">
+		SELECT ORGANIZATIONID,
+		PARENTORGANIZATIONID,COMMENTS,CREATEDATE,MODIFIEDDATE,USERID,USERNAME,FULLPATH,TEXT,ACTIVE
+		FROM
+		organization_ where
+		TEXT =#{text} and rownum =1
+	</select>
+	<select id="organization_list_fetchByParentId" parameterType="long"
+		resultType="com.xtsoft.kernel.organization.model.Organization">
+		SELECT ORGANIZATIONID,
+		PARENTORGANIZATIONID,COMMENTS,CREATEDATE,MODIFIEDDATE,USERID,USERNAME,FULLPATH,TEXT,ACTIVE
+		FROM
+		organization_ where
+		PARENTORGANIZATIONID =#{PARENTORGANIZATIONID}
+		AND ACTIVE=1 ORDER BY SORTID
+	</select>
+	<select id="users_Org_fetchbyPrimarykey" parameterType="java.util.HashMap"
+		resultType="long">
+		SELECT count(*) FROM users_orgs WHERE ORGANIZATIONID =
+		#{ORGID}
+		and USERID = #{USERID}
+	</select>
+	<insert id="users_Org_insert" parameterType="java.util.HashMap">
+		insert into
+		users_orgs
+		(USERID, ORGANIZATIONID) values (#{USERID},#{ORGID})
+	</insert>
+	<delete id="users_Org_delete" parameterType="java.util.HashMap">
+		delete from users_orgs
+		<where>
+			<if test="ORGID != null">
+				ORGANIZATIONID = #{ORGID}
+			</if>
+			<if test="USERID != null">
+				and USERID = #{USERID}
+			</if>
+		</where>
+	</delete>
+	<select id="users_Org_list" parameterType="java.util.HashMap"
+		resultType="java.util.HashMap">
+		select p.* from (SELECT USERID,ORGANIZATIONID,
+		(SELECT TEXT
+		FROM organization_ O WHERE O.ORGANIZATIONID=U.ORGANIZATIONID)
+		as TEXT,
+		(SELECT SORTID
+		FROM organization_ O WHERE
+		O.ORGANIZATIONID=U.ORGANIZATIONID)
+		as SORTID
+		FROM users_orgs u
+		WHERE
+		USERID = #{USERID}) p where TEXT is not null ORDER BY SORTID
+	</select>
+	<!-- company -->
+
+	<insert id="company_insert" parameterType="com.xtsoft.kernel.company.model.Company">
+		insert into company_
+		(COMPANYID,
+		NAME,DESCRIPTION,ACTIVE_,MAXUSERS,SORTID,CREATEDATE) values
+		(#{companyId,jdbcType=NUMERIC},#{name,jdbcType=VARCHAR},#{description,jdbcType=VARCHAR},#{active,jdbcType=NUMERIC},#{maxusers,jdbcType=NUMERIC},#{sortId,jdbcType=NUMERIC},#{createDate,jdbcType=DATE})
+	</insert>
+
+	<update id="company_update" parameterType="com.xtsoft.kernel.company.model.Company">
+		update company_ set
+		NAME
+		=#{name,jdbcType=VARCHAR},DESCRIPTION=#{description,jdbcType=VARCHAR},ACTIVE_=#{active,jdbcType=NUMERIC},MAXUSERS=#{maxusers,jdbcType=NUMERIC},SORTID=#{sortId,jdbcType=NUMERIC}
+		where
+		COMPANYID= #{companyId}
+	</update>
+
+
+	<delete id="company_delete" parameterType="long">
+		update company_ set
+		ACTIVE_ =0
+		where
+		COMPANYID= #{companyId}
+	</delete>
+
+	<select id="company_fetchByPrimaryKey" parameterType="long"
+		resultType="com.xtsoft.kernel.company.model.Company">
+		SELECT COMPANYID,
+		NAME,DESCRIPTION,ACTIVE_ as
+		ACTIVE,MAXUSERS,SORTID,CREATEDATE FROM
+		company_ where
+		COMPANYID
+		=#{companyId}
+	</select>
+
+	<select id="company_list_fetchByMap" parameterType="java.util.HashMap"
+		resultType="java.util.HashMap">
+		SELECT COMPANYID,
+		NAME,DESCRIPTION,ACTIVE_
+		,MAXUSERS,SORTID,CREATEDATE,to_char(CREATEDATE,'yyyy-mm-dd')as
+		CREATEDATE_SHOWVALUE FROM company_ where ACTIVE_=1 order by
+		SORTID
+	</select>
+
+	<select id="company_fetchByName" parameterType="string"
+		resultType="com.xtsoft.kernel.company.model.Company">
+		SELECT COMPANYID,
+		NAME,DESCRIPTION,ACTIVE_
+		,MAXUSERS,SORTID,CREATEDATE,to_char(CREATEDATE,'yyyy-mm-dd')as
+		CREATEDATE_SHOWVALUE FROM company_ where ACTIVE_=1 and
+		NAME=#{name,jdbcType=VARCHAR} and rownum =1
+	</select>
+	<select id="menu_Count_protectedResourc" parameterType="string"
+		resultType="long">
+		SELECT count(*)  from menu_
+		where
+		TARGETURL like '%'|| #{url}|| '%'
+	</select>
+	<select id="menu_Count_hasRight" parameterType="java.util.HashMap"
+		resultType="long">
+		SELECT count(*)
+		ID,PARENT,ICON as
+		iconCls,TARGETURL,TYPE,TEXT,SORTID,DESCRIPTION from menu_ where
+		TARGETURL like '%'|| #{URL}|| '%'  and ID IN (SELECT MENUID FROM role_menu WHERE ROLEID
+		IN (SELECT ROLEID FROM users_roles WHERE USERID =#{USERID}))
+	</select>
+
+</mapper>

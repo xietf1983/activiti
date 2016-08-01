@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xtsoft.kernel.workflow.model">
+	<select id="workflow_def_keyList" parameterType="java.util.HashMap"
+		resultType="java.util.HashMap">
+		SELECT distinct name_ as NAME ,key_ AS KEYVALUE FROM
+		act_re_procdef
+	</select>
+	<insert id="activiticonfig_insert" parameterType="com.xtsoft.workflow.model.ActivitiConfig">
+		insert into
+		aitiviticonfig_
+		(ID,
+		PROCKEY,
+		ACTIVITIID,
+		ACTIVITINAME,ROWINDEX)
+		values
+		(#{id},#{prockey},#{activitiId},#{name},#{rowIndex})
+	</insert>
+
+	<select id="activiticonfig_fetchByPrimaryKey" parameterType="java.util.HashMap"
+		resultType="long">
+		SELECT ID,
+		PROCKEY,
+		ACTIVITIID,
+		ACTIVITINAME as NAME ,ROWINDEX
+		FROM
+		aitiviticonfig_ where ID=#{id}
+	</select>
+
+	<select id="activiticonfig_count_fetchByMap" parameterType="java.util.HashMap"
+		resultType="long">
+		SELECT count(*) FROM
+		aitiviticonfig_
+		<where>
+			<if test="ID != null">
+				ID = #{ID}
+			</if>
+			<if test="PROCKEY != null">
+				and PROCKEY = #{PROCKEY}
+			</if>
+			<if test="PROCID != null">
+				and PROCKEY = #{PROCKEY}
+			</if>
+			<if test="ACTIVITIID != null">
+				and ACTIVITIID = #{ACTIVITIID}
+			</if>
+		</where>
+	</select>
+	<!-- 流程节点 -->
+	<select id="activiticonfig_list_fetchByMap" parameterType="java.util.HashMap"
+		resultType="java.util.HashMap">
+		select
+		s.ID,s.PROCKEY,s.ACTIVITIID,s.ACTIVITINAME,p.NAME_,p.ID_
+		,s.ROWINDEX from (SELECT
+		C.* FROM aitiviticonfig_ c )s
+		left
+		join act_re_procdef
+		p on s.prockey =p.KEY_
+		<where>
+			<if test="PROCID != null">
+				p.ID_ = #{PROCID}
+			</if>
+		</where>
+
+		ORDER BY PROCKEY,ROWINDEX
+	</select>
+	<select id="activiticonfig_list_userByMap" parameterType="long"
+		resultType="java.util.HashMap">
+		select CONFIGID,USERID from activitiusers_
+		WHERE
+		CONFIGID=#{id}
+	</select>
+	<insert id="users_activiti_insert" parameterType="java.util.HashMap">
+		insert into
+		activitiusers_
+		(CONFIGID,
+		USERID)
+		values
+		(#{CONFIGID},#{USERID})
+	</insert>
+
+	<delete id="users_activiti_delete" parameterType="java.util.HashMap">
+		delete from
+		activitiusers_
+		<where>
+			<if test="CONFIGID != null">
+				CONFIGID = #{CONFIGID}
+			</if>
+			<if test="USERID != null">
+				and USERID = #{USERID}
+			</if>
+		</where>
+	</delete>
+	<select id="users_activiti_fetchbyPrimarykey" parameterType="java.util.HashMap"
+		resultType="long">
+		select count(*) from activitiusers_
+		<where>
+			<if test="CONFIGID != null">
+				CONFIGID = #{CONFIGID}
+			</if>
+			<if test="USERID != null">
+				and USERID = #{USERID}
+			</if>
+		</where>
+	</select>
+
+	<select id="user_list_fetchByconfigId" parameterType="java.util.HashMap"
+		resultType="java.util.HashMap">
+		SELECT USERID, USERNAME,SCREENNAME,EMAILADDRESS FROM user_ w
+		<where>
+			<if test="CONFIGID != null">
+				USERID IN(SELECT USERID FROM activitiusers_ WHERE
+				CONFIGID=#{CONFIGID})
+			</if>
+			<if test="CONFIGIDNOTIN != null">
+				AND (USERID NOT IN(SELECT USERID FROM activitiusers_
+				WHERE
+				CONFIGID=#{CONFIGIDNOTIN} ))
+			</if>
+			<if test="USERNAME != null">
+				AND (USERNAME LIKE #{USERNAME} OR EMAILADDRESS LIKE
+				#{USERNAME})
+			</if>
+		</where>
+	</select>
+	<select id="user_count_fetchByconfigId" parameterType="java.util.HashMap"
+		resultType="long">
+		SELECT COUNT(*) FROM user_ w
+		<where>
+			<if test="CONFIGID != null">
+				USERID IN(SELECT USERID FROM activitiusers_ WHERE
+				CONFIGID=#{CONFIGID})
+			</if>
+			<if test="CONFIGIDNOTIN != null">
+				AND (USERID NOT IN(SELECT USERID FROM activitiusers_
+				WHERE
+				CONFIGID=#{CONFIGIDNOTIN} ))
+			</if>
+			<if test="USERNAME != null">
+				AND (USERNAME LIKE #{USERNAME} OR EMAILADDRESS LIKE
+				#{USERNAME})
+			</if>
+		</where>
+	</select>
+
+	<select id="user_list_nextUserByTaskId" parameterType="java.util.HashMap"
+		resultType="java.util.HashMap">
+		SELECT USERID, USERNAME,SCREENNAME,EMAILADDRESS FROM user_
+		w WHERE USERID IN (SELECT USERID FROM activitiusers_ WHERE CONFIGID IN
+		( SELECT ID FROM aitiviticonfig_ WHERE PROCKEY=#{PROCKEY} AND
+		ACTIVITIID=#{ACTIVITIID}))
+	</select>
+
+
+</mapper>
