@@ -6,7 +6,7 @@ var deptWin;
 Ext.BLANK_IMAGE_URL = '../ext/images/default/s.gif';
 var detailgird;
 var detailds;
-function onMessage(){
+function onMessage() {
 	doSearch();
 }
 function init() {
@@ -16,17 +16,18 @@ function init() {
 	} catch (ex) {
 
 	}
-	//Ext.get("beginTime0").dom.value = '2016-01-01';//new Date(Date.parse(new Date().toString()) - 3600000 * 24 * (1)).format('Y-m-d');
-	//Ext.get("endTime0").dom.value = new Date().format('Y-m-d');
+	// Ext.get("beginTime0").dom.value = '2016-01-01';//new Date(Date.parse(new
+	// Date().toString()) - 3600000 * 24 * (1)).format('Y-m-d');
+	// Ext.get("endTime0").dom.value = new Date().format('Y-m-d');
 	var field = new Ext.form.DropOrgCheckField({
 		selectOnFocus : true,
-		width: 180,
+		width : 180,
 		allowBlank : false,
 		id : 'manning_userId_menu',
 		el : 'orgselect'
 	});
 	field.render();
-	
+
 	Ext.Ajax.request({
 		url : 'companyAction!getCompanyList.do',
 		method : 'post',
@@ -41,15 +42,15 @@ function init() {
 		}
 	});
 
-	var cm = new Ext.grid.ColumnModel([ new Ext.grid.RowNumberer(), {
-		header : '所属合伙人',
-		dataIndex : 'organizationName',
+	var cm = new Ext.grid.ColumnModel([ {
+		header : '所属主体',
+		dataIndex : 'companyName',
 		sortable : false,
 		width : 120,
 		align : 'center'
 	}, {
-		header : '所属主体',
-		dataIndex : 'companyName',
+		header : '所属合伙人',
+		dataIndex : 'organizationName',
 		sortable : false,
 		width : 120,
 		align : 'center'
@@ -57,23 +58,23 @@ function init() {
 		header : '划拨金额',
 		dataIndex : 'appropriateamount',
 		sortable : false,
-		xtype: "numbercolumn",
-		format: "0,000.00",
+		xtype : "numbercolumn",
+		format : "0,000.00",
 		width : 120,
 		align : 'center'
 	}, {
 		header : '报销金额',
 		dataIndex : 'reimburseamount',
-		xtype: "numbercolumn",
-		format: "0,000.00",
+		xtype : "numbercolumn",
+		format : "0,000.00",
 		sortable : false,
 		width : 120,
 		align : 'center'
 	}, {
 		header : '结存金额',
 		dataIndex : 'balance',
-		xtype: "numbercolumn",
-		format: "0,000.00",
+		xtype : "numbercolumn",
+		format : "0,000.00",
 		sortable : false,
 		width : 200,
 		align : 'center'
@@ -106,20 +107,22 @@ function init() {
 	});
 	ds.on("beforeload", function(thiz, options) {
 		thiz.baseParams["STATUS"] = '5';
-		//thiz.baseParams["STARTTIME"] = document.getElementById("beginTime0").value;
+		// thiz.baseParams["STARTTIME"] =
+		// document.getElementById("beginTime0").value;
 		thiz.baseParams["COMPANYID"] = document.getElementById("company_text").value;
-		//thiz.baseParams["ENDTIME"] = document.getElementById("endTime0").value;
+		// thiz.baseParams["ENDTIME"] =
+		// document.getElementById("endTime0").value;
 		if (Ext.getCmp("manning_userId_menu").getValue() != null && Ext.getCmp("manning_userId_menu").getValue().IDS != null) {
 			thiz.baseParams["ORGANIZATIONID"] = Ext.getCmp("manning_userId_menu").getValue().IDS;
 		}
-		//thiz.baseParams["TYPE"] = Ext.getCmp("taskTree").getValue();
+		// thiz.baseParams["TYPE"] = Ext.getCmp("taskTree").getValue();
 	});
 	grid = new Ext.grid.GridPanel({
 		enableColumnMove : false,
 		enableHdMenu : false,
 		ds : ds,
 		cm : cm,
-		stripeRows : true,
+		//stripeRows : true,
 		viewConfig : {
 			forceFit : true
 		},
@@ -130,7 +133,11 @@ function init() {
 
 	});
 	ds.load();
-
+	grid.store.on("load", function() {
+		gridSpan(grid, "row", "[companyName]", "");
+	});
+	//ds.load();
+	
 	new Ext.Viewport({ // 注意这里是Viewport，NO ViewPort
 		enableTabScroll : true,
 		layout : "border",
