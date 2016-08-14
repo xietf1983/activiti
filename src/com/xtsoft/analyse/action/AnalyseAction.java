@@ -3,6 +3,8 @@ package com.xtsoft.analyse.action;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -135,18 +137,66 @@ public class AnalyseAction extends ActionSupport {
 			List<AnalyseModel> dataList = new ArrayList();
 			AnalyseModel total = new AnalyseModel();
 			total.setCompanyName("合计");
+			Map<String, AnalyseModel> mergerdata = new HashMap();
 			for (Iterator it = key.iterator(); it.hasNext();) {
 				String s = (String) it.next();
 				AnalyseModel analyse = data.get(s);
+				analyse.setCompanySortId(CompanyServiceUtil.getService().getCompanyByPrimaryKey(analyse.getCompanyId()).getSortId());
+				analyse.setOrganizationSortId(OrganizationServiceUtil.getService().getOrganizationByPrimaryKey(analyse.getOrganizationId()).getSortId());
 				dataList.add(analyse);
 				total.setAppropriateamount(new BigDecimal(total.getAppropriateamount()).add(new BigDecimal(analyse.getAppropriateamount())).floatValue());
 				total.setBalance(new BigDecimal(total.getBalance()).add(new BigDecimal(analyse.getBalance())).floatValue());
 				total.setReimburseamount(new BigDecimal(total.getReimburseamount()).add(new BigDecimal(analyse.getReimburseamount())).floatValue());
+				AnalyseModel m = mergerdata.get(analyse.getCompanyId() + "");
+				if (m == null) {
+					 m = new AnalyseModel();
+					 m.setCompanyId(analyse.getCompanyId());
+					 m.setCompanyName(analyse.getCompanyName());
+					 m.setOrganizationName("小计");
+					 m.setOrganizationId(Long.MAX_VALUE);
+					 m.setOrganizationSortId(Long.MAX_VALUE);
+					 m.setCompanySortId(analyse.getCompanySortId());
+				}
+				m.setAppropriateamount(new BigDecimal(m.getAppropriateamount()).add(new BigDecimal(analyse.getAppropriateamount())).floatValue());
+				m.setBalance(new BigDecimal(m.getBalance()).add(new BigDecimal(analyse.getBalance())).floatValue());
+				m.setReimburseamount(new BigDecimal(m.getReimburseamount()).add(new BigDecimal(analyse.getReimburseamount())).floatValue());
+				mergerdata.put(analyse.getCompanyId() + "", m);
 			}
+			Set<String> key2 = mergerdata.keySet();
+			for (Iterator it = key2.iterator(); it.hasNext();) {
+				String s = (String) it.next();
+				AnalyseModel analyse = mergerdata.get(s);
+				dataList.add(analyse);
+			}
+			// AnalyseModel comparator = new AnalyseModel();
+			Collections.sort(dataList, new Comparator<AnalyseModel>() {
+				public int compare(AnalyseModel arg0, AnalyseModel arg1) {
+					long hits0 = arg0.getCompanySortId();
+					long hits1 = arg1.getCompanySortId();
+					if (hits1 > hits0) {
+						return 1;
+					} else if (hits1 == hits0) {
+						long hits01 = arg0.getOrganizationSortId();
+						long hits11 = arg1.getOrganizationSortId();
+						long a = (hits01 - hits11);
+						if (a > 0) {
+							return 0;
+						} else if (a == 0) {
+							return 0;
+						} else {
+							return -1;
+						}
+
+					} else {
+						return -1;
+					}
+				}
+			});
 			total.setAppropriateamount(new BigDecimal(total.getAppropriateamount()).setScale(2, RoundingMode.HALF_UP).floatValue());
 			total.setBalance(new BigDecimal(total.getBalance()).setScale(2, RoundingMode.HALF_UP).floatValue());
 			total.setReimburseamount(new BigDecimal(total.getReimburseamount()).setScale(2, RoundingMode.HALF_UP).floatValue());
 			dataList.add(total);
+
 			map.put("total", dataList.size());
 			map.put("rows", dataList);
 		} catch (Exception e) {

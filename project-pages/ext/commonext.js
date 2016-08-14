@@ -1,6 +1,6 @@
 Ext.Ajax.on('requestcomplete', checkSessionStatus, this);
 function checkSessionStatus(conn, response, options) {
-	var json =  Ext.util.JSON.decode(response.responseText);
+	var json = Ext.util.JSON.decode(response.responseText);
 	if (json.sessiontimeout != null) {
 		top.window.location.href = json.redirectUri;
 	}
@@ -526,7 +526,8 @@ Ext.form.DropTree = Ext.extend(Ext.form.TriggerField, {
 });
 Ext.reg("droptree", Ext.form.DropTree);
 
-function gridSpan(grid, rowOrCol, cols, sepCol) {
+function gridSpan (grid, rowOrCol, cols, sepCol) {
+
 	var array1 = new Array();
 	var arraySep = new Array();
 	var count1 = 0;
@@ -603,20 +604,21 @@ function gridSpan(grid, rowOrCol, cols, sepCol) {
 		}
 	}
 	grid.getStore().commitChanges();
+	// 添加所有分隔线
 	var rCount = grid.getStore().getCount();
 	for (i = 0; i < rCount; i++) {
 		for (j = 0; j < grid.getColumnModel().getColumnCount(); j++) {
 			aRow = grid.getView().getCell(i, j);
 			if (i == 0) {
 				aRow.style.borderTop = "none";
-				aRow.style.borderRight = "1px solid #ccc";
+				aRow.style.borderLeft = "1px solid #ccc";
 			} else if (i == rCount - 1) {
 				aRow.style.borderTop = "1px solid #ccc";
-				aRow.style.borderRight = "1px solid #ccc";
+				aRow.style.borderLeft = "1px solid #ccc";
 				aRow.style.borderBottom = "1px solid #ccc";
 			} else {
 				aRow.style.borderTop = "1px solid #ccc";
-				aRow.style.borderRight = "1px solid #ccc";
+				aRow.style.borderLeft = "1px solid #ccc";
 			}
 			if (j == grid.getColumnModel().getColumnCount() - 1)
 				aRow.style.borderRight = "1px solid #ccc";
@@ -624,7 +626,7 @@ function gridSpan(grid, rowOrCol, cols, sepCol) {
 				aRow.style.borderBottom = "1px solid #ccc";
 		}
 	}
-	// 去锟斤拷锟较诧拷锟侥碉拷元锟斤拷姆指锟斤拷锟��
+	// 去除合并的单元格的分隔线
 	for (i = 0; i < array1.length; i++) {
 		if (!Ext.isEmpty(array1[i])) {
 			for (j = 0; j < array1[i].length; j++) {
@@ -638,7 +640,15 @@ function gridSpan(grid, rowOrCol, cols, sepCol) {
 			}
 		}
 	}
-}
+	var view = grid.getView();
+	var rows = view.getRows();
+	for (i = 0; i < rows.length; i++) {
+		var cls = Ext.get(rows[i]).dom;
+		cls.style.borderBottomWidth = "0";
+		// cls.removeClass("x-grid3-row");//去掉原来的样式
+		// cls.addClass("my-x-grid3-row");//加上自己的样式
+	}
+};
 Ext.CirButton = Ext.extend(Ext.BoxComponent, {
 	style : "",
 	clickEvent : "click",

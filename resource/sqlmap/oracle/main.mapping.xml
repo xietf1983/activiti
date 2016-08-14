@@ -23,7 +23,7 @@
 		<if test="TYPEKEY != null">
 			and TYPEKEY = #{TYPEKEY}
 		</if>
-		ORDER BY SORTID
+		 order by nlssort(name,'NLS_SORT=SCHINESE_PINYIN_M')
 	</select>
 	<insert id="category_insert" parameterType="com.xtsoft.category.model.Category">
 		insert into

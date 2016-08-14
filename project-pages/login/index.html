@@ -36,11 +36,10 @@
 				var response = Ext.util.JSON.decode(data.responseText);
 				//alert(response.result)
 				if (response.result == '1') {
+					//alert(222)
 					window.location.href = '../main/main.html';
-					//window.location= "../main/main.jsp";
-					setTimeout(function() {
-						window.location.href = '../main/main.html'
-					}, 1000);
+					window.location= "../main/main.html";
+					return false;
 				} else {
 					_alert(response.msg);
 					return;
@@ -63,7 +62,7 @@
 			</h2>
 		</div>
 		<div class="login_left">
-			<img class="login_pic" src="../images/login_pic.png" />
+			<img class="login_pic" src="../images1/login_pic.png" />
 		</div>
 		<div class="login_right">
 			<dl>
