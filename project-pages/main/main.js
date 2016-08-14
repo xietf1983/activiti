@@ -41,7 +41,8 @@ function init() {
 			autoHeight : true
 		}, accordion, mp ]
 	});
-	// addTomainTab("系统首页", "http//www.baidu.com", false);
+	//addTomainTab("系统首页", "http//www.baidu.com", false);
+	addTomainTab("我的待办", "../workflow/task-list.html", false);
 	Ext.Ajax.request({
 		url : 'menu!getMenuByUserIdAndParent.do',
 		success : function(response, options) {
