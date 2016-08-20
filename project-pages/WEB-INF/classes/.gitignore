@@ -1,12 +1,2 @@
 /app-config.xml
 /com/
-/db-01.properties
-/db-mysql.properties
-/db-oracle.properties
-/db.properties
-/ext.properties
-/log4j.properties
-/main.properties
-/org/
-/perf/
-/test/
