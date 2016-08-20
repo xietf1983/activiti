@@ -173,14 +173,14 @@ public class AnalyseAction extends ActionSupport {
 				public int compare(AnalyseModel arg0, AnalyseModel arg1) {
 					long hits0 = arg0.getCompanySortId();
 					long hits1 = arg1.getCompanySortId();
-					if (hits1 > hits0) {
+					if (hits0 > hits1) {
 						return 1;
 					} else if (hits1 == hits0) {
-						long hits01 = arg0.getOrganizationSortId();
-						long hits11 = arg1.getOrganizationSortId();
-						long a = (hits01 - hits11);
+						long hits2 = arg0.getOrganizationSortId();
+						long hits3 = arg1.getOrganizationSortId();
+						long a = (hits2 - hits3);
 						if (a > 0) {
-							return 0;
+							return 1;
 						} else if (a == 0) {
 							return 0;
 						} else {
