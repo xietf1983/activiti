@@ -3,7 +3,7 @@ var grid;
 var deployWin;
 var deptWin;
 Ext.BLANK_IMAGE_URL = '../ext/images/default/s.gif';
-var  field ;
+var field;
 function init() {
 	Ext.QuickTips.init();
 	Ext.Ajax.request({
@@ -129,11 +129,11 @@ function init() {
 		})
 
 	});
-	 field = new Ext.form.DropOrgCheckALLField({
+	field = new Ext.form.DropOrgCheckALLField({
 		selectOnFocus : true,
 		allowBlank : true,
 		width : 200,
-		hiddenValue:'',
+		hiddenValue : '',
 		id : 'manning_userId_menu',
 		el : 'orgselect'
 	});
@@ -189,7 +189,7 @@ function onItemAddCheck() {
 	document.getElementById("EMAILADDRESS").value = '';
 	document.getElementById("PASSWORD").value = '';
 	document.getElementById("TEL").value = '';
-	Ext.getCmp("manning_userId_menu").setValue('','');
+	Ext.getCmp("manning_userId_menu").setValue('', '');
 	// alert(22222)
 	if (deployWin == null) {
 		deployWin = _window('winAddInner');
@@ -243,10 +243,10 @@ function onItemEditCheck() {
 						ids = ids + "," + dd.ORGANIZATIONID;
 					}
 				}
-				//Ext.getCmp("manning_userId_menu").hiddenValue = new Object();
-				//Ext.getCmp("manning_userId_menu").hiddenValue.IDS=ids;
-				Ext.getCmp("manning_userId_menu").setValue(text,ids);
-				//Ext.getCmp("manning_userId_menu").hiddenValue.IDS=ids;
+				// Ext.getCmp("manning_userId_menu").hiddenValue = new Object();
+				// Ext.getCmp("manning_userId_menu").hiddenValue.IDS=ids;
+				Ext.getCmp("manning_userId_menu").setValue(text, ids);
+				// Ext.getCmp("manning_userId_menu").hiddenValue.IDS=ids;
 			}
 		});
 	} else {
@@ -283,8 +283,14 @@ function doSaveItem() {
 				ORGIDS : Ext.getCmp("manning_userId_menu").hiddenValue.IDS
 			},
 			success : function(data, options) {
-				doSearch();
-				docloseWin();
+				if (data.responseText == '2') {
+					_alert(document.getElementById("EMAILADDRESS").value + "账号已存在")
+				} else if (data.responseText == '0') {
+					_alert("未知异常")
+				} else {
+					doSearch();
+					docloseWin();
+				}
 			}
 		});
 	}

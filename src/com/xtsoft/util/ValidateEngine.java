@@ -86,9 +86,11 @@ public class ValidateEngine {
 				} catch (Exception ex) {
 					errorMsg.append(" 金额不是有效的数字");
 				}
-				String description = row.getCell(4).getStringCellValue();
-				if(description!= null){
-					dataMap.put("DESCRIPTION", description);
+				if (row.getCell(4) != null) {
+					String description = row.getCell(4).getStringCellValue();
+					if (description != null) {
+						dataMap.put("DESCRIPTION", description);
+					}
 				}
 				String appropriateDate = row.getCell(3).getStringCellValue();
 				try {

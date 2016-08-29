@@ -34,13 +34,13 @@ Ext.onReady(function() {
 			}
 		}
 	});
-	var cm = new Ext.grid.ColumnModel([ new Ext.grid.RowNumberer(), {
+	var cm = new Ext.grid.ColumnModel([ new Ext.grid.RowNumberer(), /*{
 		header : '操作人',
 		dataIndex : 'CREATEOR_SHOWVALUE',
 		sortable : false,
 		width : 100,
 		align : 'center'
-	}, {
+	},*/ {
 		header : '划拨金额',
 		dataIndex : 'AMOUNT',
 		sortable : false,

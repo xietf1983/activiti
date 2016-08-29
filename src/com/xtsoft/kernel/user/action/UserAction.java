@@ -108,7 +108,8 @@ public class UserAction extends ActionSupport {
 
 	public String editUser() {
 		Map map = new HashMap();
-		User model;
+		User model = null;
+		String ret = "0";// 1增加成功 ,2账号已经存在 ,0未知异常
 		try {
 			String userId = Struts2Utils.getParameter("USERID");
 			String userName = Struts2Utils.getParameter("NAME");
@@ -126,46 +127,67 @@ public class UserAction extends ActionSupport {
 			String tel = Struts2Utils.getParameter("TEL");
 			String status = Struts2Utils.getParameter("STATUS");
 			if (userId == null || userId.equals("")) {
-				model = UserServiceUtil.getService().create(CounterServiceUtil.increment(User.class.getName()));
-				model.setStatus(1);
-				model.setTel(tel);
-				model.setUserName(userName);
-				model.setOrganizationId(organizationId);
-				model.setPassword(MD5.toMD5(password));
-				model.setEmailAddress(emailAddress);
-				model.setCreateDate(new Date());
-				model.setDescription(description);
-				model.setModifiedDate(new Date());
-				model.setUserType(Integer.parseInt(userType));
+				String user = Struts2Utils.getParameter("EMAILADDRESS");
+				Map para = new HashMap();
+				para.put("USER", user);
+				List<Map> list = UserServiceUtil.getService().findUserList(para, 0, 1);
+				if (list != null && list.size() > 0) {
+					ret = "2";
+				} else {
+					model = UserServiceUtil.getService().create(CounterServiceUtil.increment(User.class.getName()));
+					model.setStatus(1);
+					model.setTel(tel);
+					model.setUserName(userName);
+					model.setOrganizationId(organizationId);
+					model.setPassword(MD5.toMD5(password));
+					model.setEmailAddress(emailAddress);
+					model.setCreateDate(new Date());
+					model.setDescription(description);
+					model.setModifiedDate(new Date());
+					model.setUserType(Integer.parseInt(userType));
+					UserServiceUtil.getService().update(model, organizationIds.split(","));
+					ret = "1";
+				}
 
 			} else {
-				model = UserServiceUtil.getService().findByPrimaryKey(Long.parseLong(userId));
-				model.setTel(tel);
-				model.setStatus(1);
-				model.setUserName(userName);
-				model.setOrganizationId(organizationId);
-				if (model.getPassword().equals(password)) {
-					model.setPassword(password);
+				String user = Struts2Utils.getParameter("EMAILADDRESS");
+				Map para = new HashMap();
+				para.put("USER", user);
+				List<Map> list = UserServiceUtil.getService().findUserList(para, 0, 1);
+				if (list != null && list.size() > 0 && Long.parseLong(String.valueOf(list.get(0).get("USERID"))) != Long.parseLong(userId)) {
+					ret = "2";
 				} else {
-					model.setPassword(MD5.toMD5(password));
+					model = UserServiceUtil.getService().findByPrimaryKey(Long.parseLong(userId));
+					model.setTel(tel);
+					model.setStatus(1);
+					model.setUserName(userName);
+					model.setOrganizationId(organizationId);
+					if (model.getPassword().equals(password)) {
+						model.setPassword(password);
+					} else {
+						model.setPassword(MD5.toMD5(password));
+					}
+					// model.setPassword(password);
+					model.setEmailAddress(emailAddress);
+					model.setCreateDate(new Date());
+					model.setDescription(description);
+					model.setModifiedDate(new Date());
+					if (status != null && !status.equals("")) {
+						model.setStatus(Integer.parseInt(status));
+					}
+					model.setUserType(Integer.parseInt(userType));
+					UserServiceUtil.getService().update(model, organizationIds.split(","));
+					ret = "1";
 				}
-				// model.setPassword(password);
-				model.setEmailAddress(emailAddress);
-				model.setCreateDate(new Date());
-				model.setDescription(description);
-				model.setModifiedDate(new Date());
-				if (status != null && !status.equals("")) {
-					model.setStatus(Integer.parseInt(status));
-				}
-				model.setUserType(Integer.parseInt(userType));
+				//ret = "1";
 			}
-			UserServiceUtil.getService().update(model, organizationIds.split(","));
 
 		} catch (Exception e) {
+			ret = "0";
 			e.printStackTrace();
 			_log.error("UserAction.editUser" + "");
 		}
-		Struts2Utils.renderDeepJson(map);
+		Struts2Utils.renderText(ret);
 		return null;
 
 	}
