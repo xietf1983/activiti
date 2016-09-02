@@ -1,5 +1,8 @@
 /com/
 /perf/
+/spring/
+/sqlmap/
+/struts.xml
 /struts2-config/
 /test/
 /workflow/

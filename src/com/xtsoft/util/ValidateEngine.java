@@ -57,7 +57,9 @@ public class ValidateEngine {
 				row.getCell(1).setCellType(Cell.CELL_TYPE_STRING);
 				row.getCell(2).setCellType(Cell.CELL_TYPE_STRING);
 				row.getCell(3).setCellType(Cell.CELL_TYPE_STRING);
-				row.getCell(4).setCellType(Cell.CELL_TYPE_STRING);
+				if (row.getCell(4) != null) {
+					row.getCell(4).setCellType(Cell.CELL_TYPE_STRING);
+				}
 				if (orgName == null) {
 					orgName = "";
 				}

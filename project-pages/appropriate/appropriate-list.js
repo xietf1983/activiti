@@ -93,8 +93,8 @@ function init() {
 	tb.add('<a class="l-btn"  href="javascript:onItemAddCheck()" ><span class="l-btn-left"><span class="l-btn-text  icon-utils-s-add l-btn-icon-left" >新建</span> </span></a>');
 	tb.add('-');
 	tb.add('<a class="l-btn"  href="javascript:onItemExcellImport()" ><span class="l-btn-left"><span class="l-btn-text icon-utils-s-excel l-btn-icon-left" >EXCELL导入</span> </span></a>');
-	tb.add('-');
-	tb.add('<a class="l-btn"  href="javascript:onItemDeleteCheck()" ><span class="l-btn-left"><span class="l-btn-text icon-utils-s-delete l-btn-icon-left" >删除</span> </span></a>');
+	//tb.add('-');
+	//tb.add('<a class="l-btn"  href="javascript:onItemDeleteCheck()" ><span class="l-btn-left"><span class="l-btn-text icon-utils-s-delete l-btn-icon-left" >删除</span> </span></a>');
 	tb.add('->');
 	//tb.add('<span id="hejishuhe" style="font-size:12;color:#2F0000；wdith:150px;">合计:0</span>');
 	//tb.add('-');
